@@ -82,6 +82,7 @@ $(document).ready(function() {
 	$('#generar-bloque').one('click', function () {
 		//console.log(chain.chain[0]);
 		if ($('#input-generate').val() != '') {
+			$('.layer').css('display','block');
 			getLastHash();
 		}
 	});	
