@@ -4,7 +4,7 @@ var globalHash = '';
 function setBlock (hash) {
 	
 for(let i = 0; i < 6; i++) {
-	$('#container').append("<a-box position='" + makeCharacter(1) + " " + makeCharacter(1) + " " + makeCharacter(1) + "' material='color: " + makeCharacter(6, true) + ";' depth='" + makeCharacter(1) + "' height='" + makeCharacter(1) + "' width='" + makeCharacter(1) + "'></a-box>");
+	$('#container').append("<a-box src='#texture" + globalBlock.index % 4 + "' position='" + makeCharacter(1) + " " + makeCharacter(1) + " " + makeCharacter(1) + "' material='color: " + makeCharacter(6, true) + ";' depth='" + makeCharacter(1) + "' height='" + makeCharacter(1) + "' width='" + makeCharacter(1) + "'></a-box>");
 }
 
 // 
@@ -20,9 +20,9 @@ for(let i = 0; i < 6; i++) {
 
 function makeCharacter(numbersReq, hex = false) {
 	if (!hex) {
-		var newNum = parseInt(globalHash.substring(char, char + numbersReq ), 16) % MOD;
+		var newNum = parseInt((globalBlock.hash).substring(char, char + numbersReq ), 16) % MOD;
 	} else {
-		var newNum = '#' + globalHash.substring(char, char + numbersReq );
+		var newNum = '#' + (globalBlock.hash).substring(char, char + numbersReq );
 	}
 	
 	char += numbersReq;
@@ -46,10 +46,12 @@ function getLastHash() {
 	.then(data => { return data.json() })
 	.then( res => {
 		//console.log(res);
-		globalHash  = res.hash;
+		globalBlock  = res;
 		setBlock(res.hash);
 		setInfo(res);
 	})
 }
 
-getLastHash();
+$(document).ready(function() {
+	getLastHash();
+})
