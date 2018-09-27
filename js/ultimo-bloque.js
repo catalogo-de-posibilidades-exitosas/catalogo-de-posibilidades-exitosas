@@ -3,12 +3,10 @@ var char = 0;
 var globalHash = '';
 function setBlock (hash) {
 	
-     $('#container').append("<a-box position='" + makeCharacter(1) + " " + makeCharacter(1) + " " + makeCharacter(1) + "' material='color: " + makeCharacter(6, true) + ";' depth='" + makeCharacter(1) + "' height='" + makeCharacter(1) + "' width='" + makeCharacter(1) + "'></a-box>");
-     $('#container').append("<a-box position='" + makeCharacter(1) + " " + makeCharacter(1) + " " + makeCharacter(1) + "' material='color: " + makeCharacter(6, true) + ";' depth='" + makeCharacter(1) + "' height='" + makeCharacter(1) + "' width='" + makeCharacter(1) + "'></a-box>");
-     $('#container').append("<a-box position='" + makeCharacter(1) + " " + makeCharacter(1) + " " + makeCharacter(1) + "' material='color: " + makeCharacter(6, true) + ";' depth='" + makeCharacter(1) + "' height='" + makeCharacter(1) + "' width='" + makeCharacter(1) + "'></a-box>");
-     $('#container').append("<a-box position='" + makeCharacter(1) + " " + makeCharacter(1) + " " + makeCharacter(1) + "' material='color: " + makeCharacter(6, true) + ";' depth='" + makeCharacter(1) + "' height='" + makeCharacter(1) + "' width='" + makeCharacter(1) + "'></a-box>");
-     $('#container').append("<a-box position='" + makeCharacter(1) + " " + makeCharacter(1) + " " + makeCharacter(1) + "' material='color: " + makeCharacter(6, true) + ";' depth='" + makeCharacter(1) + "' height='" + makeCharacter(1) + "' width='" + makeCharacter(1) + "'></a-box>");
-     $('#container').append("<a-box position='" + makeCharacter(1) + " " + makeCharacter(1) + " " + makeCharacter(1) + "' material='color: " + makeCharacter(6, true) + ";' depth='" + makeCharacter(1) + "' height='" + makeCharacter(1) + "' width='" + makeCharacter(1) + "'></a-box>");
+for(let i = 0; i < 6; i++) {
+	$('#container').append("<a-box position='" + makeCharacter(1) + " " + makeCharacter(1) + " " + makeCharacter(1) + "' material='color: " + makeCharacter(6, true) + ";' depth='" + makeCharacter(1) + "' height='" + makeCharacter(1) + "' width='" + makeCharacter(1) + "'></a-box>");
+}
+
 // 
 //             <a-box position='0 0 0' material='color: darksalmon;' depth="3" height=".2" width="2.5"></a-box>
 //             <a-box position='1 1 0' color="#45a3f4" depth="3" height=".2" width="2.5"></a-box>
@@ -31,6 +29,15 @@ function makeCharacter(numbersReq, hex = false) {
 	return newNum
 }
 
+function setInfo(block) {
+	console.log(block);
+
+
+	$('#block-num').html('<b>Bloque N°: </b>' + block.index);
+	$('#author').html('<b>Autor: </b>' + block.author);
+	$('#date').html('<b>Fecha: </b>' + block.timestamp);
+	$('#hash').html('<b>Hash: </b>' + block.hash);
+}
 function getLastHash() {
 
 	const url = 'https://hbs-web.herokuapp.com/api/v1/last-block';
@@ -38,9 +45,10 @@ function getLastHash() {
 	fetch(url)
 	.then(data => { return data.json() })
 	.then( res => {
-		console.log(res);
+		//console.log(res);
 		globalHash  = res.hash;
-		setBlock(res.hash)
+		setBlock(res.hash);
+		setInfo(res);
 	})
 }
 
