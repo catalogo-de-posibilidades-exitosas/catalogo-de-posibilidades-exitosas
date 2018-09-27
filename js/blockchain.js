@@ -76,9 +76,40 @@ function generateNewBlock( previousBlock ) {
 }
 
 let chain = new Blockchain;
+var authors = [];
 
+function getFullCatalog() {
+
+	const url = 'https://hbs-web.herokuapp.com/api/v1/tasks';
+
+	fetch(url)
+	.then(data => { return data.json() })
+	.then( res => {
+		console.log(res);
+		var options = '<option value="" disabled selected>Selecciona un autor</option>';
+		res.forEach(function(element) {
+			options += '<option value="' + element.index + '">' + element.author + '</option>'
+			authors.push(element.author);
+		})
+		$('#list-blocks select').html(options);
+		generateSelect();
+	})
+	
+}
+
+function generateSelect() {
+	console.log(authors);
+	
+}
+
+function getIndex(e) {
+	console.log(e);
+
+	window.location.href = 'ultimo-bloque.html?' + e;
+}
 
 $(document).ready(function() {
+	getFullCatalog();
 	$('#generar-bloque').one('click', function () {
 		//console.log(chain.chain[0]);
 		if ($('#input-generate').val() != '') {

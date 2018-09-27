@@ -38,6 +38,20 @@ function setInfo(block) {
 	$('#date').html('<b>Fecha: </b>' + block.timestamp);
 	$('#hash').html('<b>Hash: </b>' + block.hash);
 }
+
+function getAuthor(e) {
+	const url = 'https://hbs-web.herokuapp.com/api/v1/tasks/' + e;
+
+	fetch(url)
+	.then(data => { return data.json() })
+	.then( res => {
+		//console.log(res);
+		globalBlock  = res;
+		setBlock(res.hash);
+		setInfo(res);
+	})
+}
+
 function getLastHash() {
 
 	const url = 'https://hbs-web.herokuapp.com/api/v1/last-block';
@@ -53,5 +67,18 @@ function getLastHash() {
 }
 
 $(document).ready(function() {
-	getLastHash();
+	    if(window.location.search == '') {
+
+	    	getLastHash();
+	        
+        
+    	} else {
+
+    		getAuthor((window.location.search).substring(1));
+    		console.log((window.location.search).substring(1))
+
+			// Limpia el '?intro' de la url
+	        window.history.pushState('', '', window.location.pathname);    		
+    	}
+	
 })
