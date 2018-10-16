@@ -96,6 +96,17 @@ function getLastHash() {
 	})
 }
 
+function verifyMarker() {
+    //var amarker = this.$refs.amarker; // vuejs
+    var amarker = document.querySelector("#container")
+    if(amarker.object3D.visible == true) {
+        console.log('marker is visible');
+    }
+    else {
+        console.log('marker is lost');
+    }
+}
+
 $(document).ready(function() {
 	    if(window.location.search == '') {
 
@@ -109,7 +120,9 @@ $(document).ready(function() {
 
 			// Limpia el '?1' de la url
 	        window.history.pushState('', '', window.location.pathname);    		
-    	}
+		}
+		
+		//setInterval(function(){verifyMarker()}, 1000);
 	
 })
 
