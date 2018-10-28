@@ -1,21 +1,7 @@
-
-var globalHash = '';
-var ids = [];
 var animation = '';
-var blocks = [];
 const TEXTURES = 20;
-var globalBlock = '';
-function setBlocks () {
-
-	blocks.forEach( (element, i) => {
-		let y = -1;
-		while(y < 1.5) {
-			for(let x = -1; x < 1.5; x += 0.5) { 
-
-			}
-		}
-	});
-}
+const INFO_ATTR = ["Bloque N°: ","Autor: ","Fecha: ","Código: "];
+const ATTR_KEYS = ["index","author","timestamp","hash"];
 
 function createBlock(block, markerN) {
 	let blockType = '';
@@ -124,58 +110,6 @@ function makeCharacter(hash,iterators,numbersReq, type = 'pos') {
 }
 
 function setBlock (hash) {
-	//console.log(globalBlock)
-
-	let y = -1;
-	
-	while(y < 1.5) {
-		for(let x = -1; x < 1.5; x += 0.5) { 
-
-			if (hash.hash.charAt(0)  == '0') {
-				$('#container').append("<a-cone src='media/texture" + hash.index % TEXTURES + ".jpg' position='" + x + " 0 " + y + "' color='" + makeCharacter(6, 'hex') + "' rotation='-90 0 0' radius-bottom='" + makeCharacter(1, 'cir') + "' radius-top='" + makeCharacter(1, 'cir') + "'></a-cone>");
-			} else if (hash.hash.charAt(0)  == '1') {
-				$('#container').append("<a-sphere src='media/texture" + hash.index % TEXTURES + ".jpg' position='" + x + " 0 " + y + "' color='" + makeCharacter(6, 'hex') + "' rotation='-90 0 0' radius='" + makeCharacter(1, 'cir') + "'></a-sphere>");
-			} else if (hash.hash.charAt(0)  == '4') {
-				ids.push(makeCharacter(4, 'clean')) 
-				$('#container').append("<a-icosahedron id='" + ids[ids.length - 1] + "' src='media/texture" + hash.index % TEXTURES + ".jpg' position='" + x + " 0 " + y + "' color='" + makeCharacter(6, 'hex') + "' rotation='-90 0 0' radius='" + makeCharacter(1, 'cir') + "'></a-icosahedron>");
-				animation = 'color';
-			} else if (hash.hash.charAt(0)  == '3') {
-				$('#container').append("<a-dodecahedron src='media/texture" + hash.index % TEXTURES + ".jpg' position='" + x + " 0 " + y + "' color='" + makeCharacter(6, 'hex') + "' rotation='-90 0 0' radius='" + makeCharacter(1, 'cir') + "'></a-dodecahedron>");
-			} else if (hash.hash.charAt(0)  == '4') {
-				$('#container').append("<a-tetrahedron src='media/texture" + hash.index % TEXTURES + ".jpg' position='" + x + " 0 " + y + "' color='" + makeCharacter(6, 'hex') + "' rotation='-90 0 0' radius='" + makeCharacter(1, 'cir') + "'></a-tetrahedron>");
-			} else if (hash.hash.charAt(0)  == '5') {
-				ids.push(makeCharacter(4, 'clean')) 
-				$('#container, #container2').append("<a-octahedron id='" + ids[ids.length - 1] + "' rotation='" + makeCharacter(3, 'clean') % 360 + " 0 0' src='media/texture" + hash.index % TEXTURES + ".jpg' position='" + x + " 0 " + y + "' color='" + makeCharacter(6, 'hex') + "' rotation='-90 0 0' radius='" + makeCharacter(1, 'cir') + "'></a-octahedron>");
-				animation = 'radius';
-			} else if (hash.hash.charAt(0)  == '6') {
-				ids.push(makeCharacter(4, 'clean')) 
-				$('#container').append("<a-torus id='" + ids[ids.length - 1] + "' src='media/texture" + hash.index % TEXTURES + ".jpg' position='" + x + " 0 " + y + "' arc='" + makeCharacter(3, 'clean') % 360 + "' color='" + makeCharacter(6, 'hex') + "'  radius='" + makeCharacter(1, 'cir') + "' radius-tubular='0.1'></a-torus>");
-				animation = 'color';
-			} else if (hash.hash.charAt(0)  == '9') {
-				$('#container').append("<a-triangle src='media/texture" + hash.index % TEXTURES + ".jpg' position='" + x + " 0 " + y + "'  color='" + makeCharacter(6, 'hex') + "' rotation='" + makeCharacter(3, 'clean') % 360 + " 0 0' vertex-c='" + makeCharacter(1, 'cir') + " " + makeCharacter(1, 'cir')  + " " +  makeCharacter(1, 'cir') + "'></a-triangle>");
-			} else if (hash.hash.charAt(0)  == '8') {
-				ids.push(makeCharacter(5, 'clean')) 
-				$('#container').append("<a-circle id='" + ids[ids.length - 1] + "' src='media/texture" + hash.index % TEXTURES + ".jpg' position='" + x + " 0 " + y + "'  color='" + makeCharacter(6, 'hex') + "' rotation='" + makeCharacter(3, 'clean') % 360 + " 0 0' radius='" + makeCharacter(1, 'cir') + "'></a-circle>");
-				animation = 'radius';
-			} else if (hash.hash.charAt(0)  == '9') {
-				$('#container').append("<a-ring src='media/texture" + hash.index % TEXTURES + ".jpg' position='" + x + " 0 " + y + "' color='" + makeCharacter(6, 'hex') + "' rotation='-90 0 0' radius-inner='" + makeCharacter(1, 'cir') + "' radius-outer='" + makeCharacter(1, 'cir') + "'></a-ring>");
-			} else if (hash.hash.charAt(0)  == 'a') {
-				$('#container').append("<a-torus-knot src='media/texture" + hash.index % TEXTURES + ".jpg' position='" + x + " 0 " + y + "' arc='" + makeCharacter(3, 'clean') % 360  + "' color='"+ makeCharacter(6, 'hex') + "' p='" + makeCharacter(1, 'clean') + "' q='" + makeCharacter(1, 'clean') + "' radius='" + makeCharacter(1, 'cir') + "' radius-tubular='0.1'></a-torus-knot>");
-			} else if (hash.hash.charAt(0)  == 'b') {
-				$('#container').append("<a-cylinder rotation='" + makeCharacter(3, 'clean') % 360 + " 0 0' src='media/texture" + hash.index % TEXTURES + ".jpg' position='" + x + " 0 " + y + "' color='" + makeCharacter(6, 'hex') + "' height='" + makeCharacter(1) + "' radius='" + makeCharacter(1, 'cir') + "'></a-cylinder>");
-				$('#container2').append("<a-cylinder rotation='" + makeCharacter(3, 'clean') % 360 + " 0 0' src='media/texture" + hash.index % TEXTURES + ".jpg' position='" + x + " 0 " + y + "' color='" + makeCharacter(6, 'hex') + "' height='" + makeCharacter(1) + "' radius='" + makeCharacter(1, 'cir') + "'></a-cylinder>");
-			} else if (hash.hash.charAt(0)  == 'c') {
-				$('#container').append("<a-plane rotation='" + makeCharacter(3, 'clean') % 360 + " 0 0' src='media/texture" + hash.index % TEXTURES + ".jpg' position='" + x + " 0 " + y + "' color='" + makeCharacter(6, 'hex') + "'  height='" + makeCharacter(1) + "' width='" + makeCharacter(1) + "'></a-plane>");
-				//animation = 'rotation';
-			}    else {
-				$('#container').append("<a-box src='media/texture" + hash.index % TEXTURES + ".jpg' position='" + x + " 0 " + y + "' color='"+ makeCharacter(6, 'hex') + "' depth='" + makeCharacter(1) + "' height='" + makeCharacter(1) + "' width='" + makeCharacter(1) + "'></a-box>");
-
-				animation = 'rotation';
-			}
-			
-		}	
-		y += 0.5;
-	}
 
 	console.log(ids)
 	if (animation == 'rotation') {
@@ -282,16 +216,16 @@ function animationRadius() {
 	
 }
 
+function setInfo(block, markerN) {
 
+	$('#mrk' + markerN).append("<a-plane color='#6b6b6b' width='3.2' height='1.4' rotation='-90 0 0' position='0 0 2.7'></a-plane>");
 
-
-function setInfo(block) {
-	console.log(block);
-
-	$('#block-num').html('<b>Bloque N°: </b>' + block.index);
-	$('#author').html('<b>Autor: </b>' + block.author);
-	$('#date').html('<b>Fecha: </b>' + block.timestamp);
-	$('#hash').html('<b>Hash: </b>' + block.hash);
+	let yPos = 2.1;
+	INFO_ATTR.forEach((element,i) => {
+		$('#mrk' + markerN).append('<a-text width="3" baseline="top" anchor="center" font="font/roboto.fnt" fontImage="font/roboto.png" position="0 0.1 ' + yPos + '" rotation="-90 0 0" value="' + element + block[ATTR_KEYS[i]] +'"></a-text>');
+		yPos += .2;
+	})
+	
 }
 
 function getAuthor(e) {
@@ -304,25 +238,9 @@ function getAuthor(e) {
 		//console.log(res);
 		res.forEach((element,i) => {
 			let block = format(element);
-			console.log(block)
+			setInfo(block,i);
 			createBlock(block,i);
 		})
-	})
-}
-
-function getLastHash() {
-
-	const url = 'https://hbs-web.herokuapp.com/api/v1/last-block';
-
-	fetch(url)
-	.then(data => { return data.json() })
-	.then( res => {
-		//console.log(res);
-		globalBlock  = format(res);
-		
-		console.log(globalBlock);
-		setBlock(globalBlock);
-		setInfo(globalBlock);
 	})
 }
 
@@ -348,12 +266,9 @@ function getLastFour() {
 
 		res.forEach((element,i) => {
 			let block = format(element);
-			console.log(block)
+			setInfo(block,i);
 			createBlock(block,i);
 		})
-		// globalBlock  = res;
-		// setBlock(res.hash);
-		// setInfo(res);
 	})
 }
 
