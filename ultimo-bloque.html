@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
-
+	<script type="text/javascript" src="js/screenshot.js"></script>
 	<script type="text/javascript" src="js/aframe.js"></script>
 	<!-- <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script> -->
 	<script type="text/javascript" src="js/ar.js"></script>
@@ -16,22 +16,85 @@
 	THREEx.ArToolkitContext.baseURL = 'https://rawgit.com/jeromeetienne/ar.js/master/three.js/'
 	</script>
   	<body style='margin : 0px; overflow: hidden;'>
-
+		<img id="test" src=""/>
 	    <div id="info">
 	    	<div id="block-num"></div>
 	    	<div id="author"></div>
 	    	<div id="date"></div>
 	    	<div id="hash"></div>
-	    </div>
-	    <a-scene  embedded arjs>
-	    	<a-assets>
+		</div>
 
+		<!-- Twitter Scene -->
+		<!-- <a-scene id="twitter" style="position: fixed" embedded>
+			<a-assets timeout="0">
+					<img id="texture" src="media/texture0.jpg">
+					<img id="texture" src="media/texture1.jpg">
+					<img id="texture" src="media/texture2.jpg">
+					<img id="texture" src="media/texture3.jpg">
+					<img id="texture" src="media/texture4.jpg">
+					<img id="texture" src="media/texture5.jpg">
+					<img id="texture" src="media/texture6.jpg">
+					<img id="texture" src="media/texture7.jpg">
+					<img id="texture" src="media/texture8.jpg">
+					<img id="texture" src="media/texture9.jpg">
+					<img id="texture" src="media/texture10.jpg">
+					<img id="texture" src="media/texture11.jpg">
+					<img id="texture" src="media/texture12.jpg">
+					<img id="texture" src="media/texture14.jpg">
+					<img id="texture" src="media/texture15.jpg">	
+					<img id="texture" src="media/texture16.jpg">
+					<img id="texture" src="media/texture17.jpg">
+					<img id="texture" src="media/texture18.jpg">
+					<img id="texture" src="media/texture19.jpg">
 			</a-assets>
-		
-			<a-marker preset="hiro" id="container">
+			<a-entity position="0 7 2" rotation="-90 0 0">
+				<a-camera></a-camera>
+		  	</a-entity>
+			<a-sphere src="#texture" position="-1 0 -1" color="#1355ab" rotation="-90 0 0" radius="0.2" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="#texture" position="-0.5 0 -1" color="#749f83" rotation="-90 0 0" radius="0.3" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="#texture" position="0 0 -1" color="#dc14a0" rotation="-90 0 0" radius="0.7" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="#texture" position="0.5 0 -1" color="#536b06" rotation="-90 0 0" radius="0.9" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="1 0 -1" color="#0839ac" rotation="-90 0 0" radius="0.1" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="#texture" position="-1 0 -0.5" color="#ce5219" rotation="-90 0 0" radius="0.9" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="-0.5 0 -0.5" color="#f6840f" rotation="-90 0 0" radius="0.5" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="0 0 -0.5" color="#66e0b3" rotation="-90 0 0" radius="0.8" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="0.5 0 -0.5" color="#348b2b" rotation="-90 0 0" radius="0.9" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="1 0 -0.5" color="#355ab3" rotation="-90 0 0" radius="0.5" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="-1 0 0" color="#49f835" rotation="-90 0 0" radius="0.9" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="-0.5 0 0" color="#c14a0a" rotation="-90 0 0" radius="0.3" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="0 0 0" color="#36b06e" rotation="-90 0 0" radius="0.5" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="0.5 0 0" color="#839ac1" rotation="-90 0 0" radius="0.8" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="1 0 0" color="#e5219d" rotation="-90 0 0" radius="1.0" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="-1 0 0.5" color="#6840f7" rotation="-90 0 0" radius="0.4" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="-0.5 0 0.5" color="#6e0b3c" rotation="-90 0 0" radius="0.2" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="0 0 0.5" color="#48b2bd" rotation="-90 0 0" radius="1.0" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="0.5 0 0.5" color="#55ab37" rotation="-90 0 0" radius="0.3" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="1 0 0.5" color="#9f835d" rotation="-90 0 0" radius="0.8" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="-1 0 1" color="#14a0a5" rotation="-90 0 0" radius="0.2" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="-0.5 0 1" color="#6b06e0" rotation="-90 0 0" radius="0.5" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="0 0 1" color="#39ac1c" rotation="-90 0 0" radius="0.9" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="0.5 0 1" color="#5219df" rotation="-90 0 0" radius="0.4" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="1 0 1" color="#840f76" rotation="-90 0 0" radius="0.4" scale="" visible="" material="" geometry=""></a-sphere>
+		</a-scene>  -->
 
-			</a-marker>
-			<a-entity camera></a-entity>
-	    </a-scene>
+
+		<!-- HIRO scene -->
+	  <a-scene embedded arjs='detectionMode: mono_and_matrix; matrixCodeType: 3x3;'>
+	    	<a-assets>
+				<img id="texture0" src="media/texture0.jpg">
+				<img id="texture1" src="media/texture1.jpg">
+				<img id="texture2" src="media/texture2.jpg">
+				<img id="texture3" src="media/texture3.jpg">
+				<img id="texture4" src="media/texture4.jpg">
+				<img id="texture5" src="media/texture5.jpg">
+				<img id="texture6" src="media/texture6.jpg">
+				<img id="texture7" src="media/texture7.jpg">
+				<img id="texture8" src="media/texture8.jpg">
+				<img id="texture9" src="media/texture9.jpg">
+				<img id="texture10" src="media/texture10.jpg">
+				<img id="texture11" src="media/texture11.jpg">
+				<img id="texture12" src="media/texture12.jpg">
+				<img id="texture13" src="media/texture14.jpg">
+				<img id="texture14" src="media/texture15.jpg">	
+				<img id="texture15" src="media/texture16.jpg">
+				<img id="texture16" src="media/texture17.jpg">
+				<img id="texture17" src="media/texture18.jpg">
+				<img id="texture18" src="media/texture19.jpg">
+			</a-assets>
+			<!-- <a-entity id="twitter" position="0 7 2" rotation="-90 0 0">
+					<a-camera></a-camera>
+				
+			</a-entity>	-->
+			<a-marker preset="hiro" id="container"></a-marker>
+			<a-marker type='barcode' value='1' id="mrk0"></a-marker>
+			<a-marker type='barcode' value='2' id="mrk1"></a-marker>
+			<a-marker type='barcode' value='3' id="mrk2"></a-marker>
+			<a-marker type='barcode' value='4' id="mrk3"></a-marker>
+			<!-- <a-marker preset="hiro" id="container"></a-marker>
+			<a-marker preset="kanji" id="container"></a-marker>
+			<a-marker preset='custom' type='pattern' url='markers/patt.patt'></a-marker> -->
+			<a-entity id="camera" camera ></a-entity>
+
+			<!-- <a-entity id="twitter">
+				<a-sphere src="#texture" position="-1 0 -1" color="#1355ab" rotation="-90 0 0" radius="0.2" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="#texture" position="-0.5 0 -1" color="#749f83" rotation="-90 0 0" radius="0.3" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="#texture" position="0 0 -1" color="#dc14a0" rotation="-90 0 0" radius="0.7" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="#texture" position="0.5 0 -1" color="#536b06" rotation="-90 0 0" radius="0.9" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="1 0 -1" color="#0839ac" rotation="-90 0 0" radius="0.1" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="#texture" position="-1 0 -0.5" color="#ce5219" rotation="-90 0 0" radius="0.9" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="-0.5 0 -0.5" color="#f6840f" rotation="-90 0 0" radius="0.5" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="0 0 -0.5" color="#66e0b3" rotation="-90 0 0" radius="0.8" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="0.5 0 -0.5" color="#348b2b" rotation="-90 0 0" radius="0.9" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="1 0 -0.5" color="#355ab3" rotation="-90 0 0" radius="0.5" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="-1 0 0" color="#49f835" rotation="-90 0 0" radius="0.9" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="-0.5 0 0" color="#c14a0a" rotation="-90 0 0" radius="0.3" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="0 0 0" color="#36b06e" rotation="-90 0 0" radius="0.5" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="0.5 0 0" color="#839ac1" rotation="-90 0 0" radius="0.8" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="1 0 0" color="#e5219d" rotation="-90 0 0" radius="1.0" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="-1 0 0.5" color="#6840f7" rotation="-90 0 0" radius="0.4" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="-0.5 0 0.5" color="#6e0b3c" rotation="-90 0 0" radius="0.2" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="0 0 0.5" color="#48b2bd" rotation="-90 0 0" radius="1.0" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="0.5 0 0.5" color="#55ab37" rotation="-90 0 0" radius="0.3" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="1 0 0.5" color="#9f835d" rotation="-90 0 0" radius="0.8" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="-1 0 1" color="#14a0a5" rotation="-90 0 0" radius="0.2" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="-0.5 0 1" color="#6b06e0" rotation="-90 0 0" radius="0.5" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="0 0 1" color="#39ac1c" rotation="-90 0 0" radius="0.9" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="0.5 0 1" color="#5219df" rotation="-90 0 0" radius="0.4" scale="" visible="" material="" geometry=""></a-sphere><a-sphere src="media/texture8.jpg" position="1 0 1" color="#840f76" rotation="-90 0 0" radius="0.4" scale="" visible="" material="" geometry=""></a-sphere>
+			</a-entity> -->
+
+	    </a-scene> 
   	</body>
 </html>
