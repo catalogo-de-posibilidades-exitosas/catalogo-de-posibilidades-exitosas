@@ -1,64 +1,185 @@
-var animation = '';
-const TEXTURES = 20;
+const TEXTURES = 19;
 const INFO_ATTR = ["Bloque N°: ","Autor: ","Fecha: ","Código: "];
 const ATTR_KEYS = ["index","author","timestamp","hash"];
+const EASING = ['linear','ease','ease-in','ease-out','ease-in-out'];
+const EASING_SUB = ['cubic','quad','quart','quint','sine','expo','circ','elastic','back','bounce'];
+const FILL = ['backwards','none','both','forwards'];
+const BLOCK_TYPES = [
+	{
+		type: 'a-cone',
+		animations: [
+			'rotation',
+			'color',
+			'position',
+			'radius-bottom',
+			'radius-top'
+		]
+	},
+	{
+		type: 'a-sphere',
+		animations: [
+			'rotation',
+			'color',
+			'position',
+			'radius'
+		]
+	},
+	{
+		type: 'a-icosahedron',
+		animations: [
+			'rotation',
+			'color',
+			'position',
+			'radius'
+		]
+	},
+	{
+		type: 'a-dodecahedron',
+		animations: [
+			'rotation',
+			'color',
+			'position',
+			'radius'
+		]
+	},
+	{
+		type: 'a-tetrahedron',
+		animations: [
+			'rotation',
+			'color',
+			'position',
+			'radius'
+		]
+	},
+	{
+		type: 'a-octahedron',
+		animations: [
+			'rotation',
+			'color',
+			'position',
+			'radius'
+		]
+	},
+	{
+		type: 'a-torus',
+		animations: [
+			'rotation',
+			'color',
+			'position',
+			'radius',
+			'radius-tubular',
+		]
+	},
+	{
+		type: 'a-triangle',
+		animations: [
+			'rotation',
+			'color',
+			'position'
+		]
+	},
+	{
+		type: 'a-circle',
+		animations: [
+			'rotation',
+			'color',
+			'position',
+			'radius'
+		]
+	},
+	{
+		type: 'a-ring',
+		animations: [
+			'rotation',
+			'color',
+			'position',
+			'radius-inner',
+			'radius-outer'
+		]
+	},
+	{
+		type: 'a-torus-knot',
+		animations: [
+			'rotation',
+			'color',
+			'position',
+			'p',
+			'q',
+			'radius'
+		]
+	},
+	{
+		type: 'a-cylinder',
+		animations: [
+			'rotation',
+			'color',
+			'position',
+			'height',
+			'radius'
+		]
+	},
+	{
+		type: 'a-plane',
+		animations: [
+			'rotation',
+			'color',
+			'position',
+			'height',
+			'width'
+		]
+	},
+	{
+		type: 'a-box',
+		animations: [
+			'rotation',
+			'color',
+			'position',
+			'height',
+			'width',
+			'depth'
+		]
+	},
+];
+const ANIMATION_VALUES = {
+	'rotation': 'fullrot',
+	'color': 'hex',
+	'position': 'fullpos',
+	'p': 'clean',
+	'q': 'clean',
+	'radius': 'cir',
+	'depth': 'pos',
+	'height':'pos',
+	'width': 'pos',
+	'radius-inner':'cir',
+	'radius-outer':'cir',
+	'radius-bottom':'cir',
+	'radius-top':'cir'
+}
 
 function createBlock(block, markerN) {
-	let blockType = '';
+	
 	let iterators = {
 		changer: 1,
 		char: 0
 	}
 
-	switch (block.hash.charAt(0)) {
-		case '0':
-		  blockType = 'a-cone';
-		  break;
-		case '1':
-		  blockType = 'a-sphere';
-		  break;
-		case '2':
-		  blockType = 'a-icosahedron';
-		  break;
-		case '3':
-		  blockType = 'a-dodecahedron';
-		  break;
-		case '4':
-		  blockType = 'a-tetrahedron';
-		  break;
-		case '5':
-		  blockType = 'a-octahedron';
-		  break;	
-		case '6':
-		  blockType = 'a-torus';
-		  break;
-		case '7':
-		  blockType = 'a-triangle';
-		  break;
-		case '8':
-		  blockType = 'a-circle';
-		  break;
-		case '9':
-		  blockType = 'a-ring';
-		  break;
-		case 'a':
-		  blockType = 'a-torus-knot';
-		  break;
-		case 'b':
-		  blockType = 'a-cylinder';
-		  break;
-		case 'c':
-		  blockType = 'a-plane';
-		  break;		  
-		default:
-			blockType = 'a-box';
+	let blockType = makeCharacter(block.hash, iterators,3, 'clean') % 14;
+	let animation = BLOCK_TYPES[blockType].animations[makeCharacter(block.hash, iterators,1, 'clean') % BLOCK_TYPES[blockType].animations.length];
+	let animationDur = makeCharacter(block.hash, iterators,4, 'clean') % 10000;
+	if (animationDur < 1000) {
+		animationDur = 1000;
 	}
+	let easing = EASING[makeCharacter(block.hash, iterators,2, 'clean') % EASING.length];
+	let fill = FILL[makeCharacter(block.hash, iterators,2, 'clean') % FILL.length]
+	easing += easing != 'linear' ? '-' + EASING_SUB[makeCharacter(block.hash, iterators,2, 'clean') % EASING_SUB.length] : '';
+	console.log('ANIMATION>>>>>',animation,'Easing>>>>>>',easing,'DUR>>>>>',animationDur, 'FILL>>>>>>>>', fill);
 
 	let y = -1;
 	while(y < 1.5) {
 		for(let x = -1; x < 1.5; x += 0.5) {
+			
 			$('#mrk' + markerN).append(
-				"<" + blockType + " \
+				"<" + BLOCK_TYPES[blockType].type + " \
 				radius-tubular='0.1' \
 				rotation='" + makeCharacter(block.hash, iterators,3, 'clean') % 360 + " 0 0' \
 				src='#texture" + block.index % TEXTURES + "' \
@@ -68,7 +189,7 @@ function createBlock(block, markerN) {
 				radius-top='" + makeCharacter(block.hash, iterators,1, 'cir') + "' \
 				radius='" + makeCharacter(block.hash, iterators,1, 'cir') + "' \
 				arc='" + makeCharacter(block.hash, iterators,3, 'clean') % 360 + "' \
-				vertex-c='" + makeCharacter(block.hash, iterators,1, 'cir') + " " + makeCharacter(block.hash, iterators,1, 'cir')  + " " +  makeCharacter(block.hash, iterators,1, 'cir') + "' \
+				vertex-c='1 1 1' \
 				radius-inner='" + makeCharacter(block.hash, iterators,1, 'cir') + "' \
 				radius-outer='" + makeCharacter(block.hash, iterators,1, 'cir') + "' \
 				p='" + makeCharacter(block.hash, iterators,1, 'clean') + "' \
@@ -76,7 +197,17 @@ function createBlock(block, markerN) {
 				height='" + makeCharacter(block.hash, iterators,1) + "' \
 				width='" + makeCharacter(block.hash, iterators,1) + "' \
 				depth='" + makeCharacter(block.hash, iterators,1) + "' \
-				></" + blockType + ">")
+				> \
+				<a-animation \
+					attribute='" + animation + "' \
+					easing='" + easing + "' \
+					direction='alternate' \
+					dur='" + animationDur + "' \
+					fill='"+ fill + "' \
+					to='" + makeCharacter(block.hash, iterators,1, ANIMATION_VALUES[animation])+ "' \
+					repeat='indefinite'> \
+				</a-animation> \
+				</" + BLOCK_TYPES[blockType].type + ">")
 		}
 		y += 0.5;
 	}
@@ -84,16 +215,16 @@ function createBlock(block, markerN) {
 
 function makeCharacter(hash,iterators,numbersReq, type = 'pos') {
 
-	if (iterators.char + numbersReq > hash.length ) {
+	if (iterators.char + 6 > hash.length ) {
 		iterators.char = iterators.changer;
 		iterators.changer++;
 	} 
 	if (type == 'pos') {
 		var newNum = parseInt((hash).substring(iterators.char, iterators.char + numbersReq ), 16) / 10;
-		
 	} else if (type == 'hex') {
-		var newNum = '#' + (hash).substring(iterators.char, iterators.char + numbersReq );
-		
+		var newNum = '#' + (hash).substring(iterators.char, iterators.char + 6 );
+	} else if (type == 'fullhex') {
+		var newNum = '#' + (hash).substring(iterators.char, iterators.char + 6 );
 	} else if (type == 'clean') {
 		var newNum = parseInt((hash).substring(iterators.char, iterators.char + numbersReq ), 16);
 	} else if (type == 'cir') {
@@ -101,24 +232,24 @@ function makeCharacter(hash,iterators,numbersReq, type = 'pos') {
 		if (newNum == 0.0) {
 			newNum = 0.5;
 		}
-		
+	} else if (type == 'fullpos') {
+		var newNum = parseInt((hash).substring(iterators.char, iterators.char + numbersReq ), 16) / 10;
+		iterators.char += numbersReq;
+		if (iterators.char + numbersReq > hash.length ) {
+			iterators.char = iterators.changer;
+			iterators.changer++;
+		}
+		newNum += ' 0 ' + parseInt((hash).substring(iterators.char, iterators.char + numbersReq ), 16) / 10;
+	} else if (type == 'fullrot') {
+		var newNum = parseInt((hash).substring(iterators.char, iterators.char + 3 ), 16) % 360 + ' 45 90';
 	}
-	
+
 	iterators.char += numbersReq;
 	
 	return newNum
 }
 
 function setBlock (hash) {
-
-	console.log(ids)
-	if (animation == 'rotation') {
-		setInterval(function(){animationRotation()},10);
-	} else if (animation == 'radius') {
-		setInterval(function(){animationRadius()},100);
-	} else if (animation == 'color') {
-		setInterval(function(){animationColor()},10);
-	}
 	//animationPosition('up');
 	setTimeout(function () {
 		console.log('vsd');
@@ -134,86 +265,6 @@ function setBlock (hash) {
 		// 	console.log(canvas)
 		// });		
 	}, 1000);
-}
-
-// ROTACION
-let rotation = -90;
-function shiftRotation() {
-	rotation = (rotation += 1 ) % 360;
-}
-
-function animationRotation() {
-	shiftRotation();
-	$('#container *').attr('rotation', rotation + ' 0 0' );
-
-}
-
-// POSITION
-function animationPosition(direction) {
-	let newdir = direction;
-	ids.forEach(element => {
-		console.log($('#' + element).attr('position'));
-		let y = $('#' + element).attr('position').split(' ')[2];
-		let temp = $('#' + element).attr('position').split(' ');
-		temp.pop();
-
-		if(newdir == 'up') {
-			y = Number(y) + 0.1;
-			if (y > 1.5) {
-				newdir = 'down'
-			}
-		} else {
-			y = Number(y) - 0.1;
-			if (y < -1.5) {
-				newdir = 'up'
-			}
-		}
-
-		temp.push(y.toString());
-		
-		var finalPosition = temp.join(' ');
-		
-		//console.log(finalPosition)
-		
-		$('#' + element).attr('position', finalPosition);
-		//console.log($('#' + element).attr('position'));
-		
-
-	});
-}
-
-// COLOR
-function shiftHue(color) {
-	var hexStr = (parseInt(color, 16) + parseInt('000001', 16)).toString(16);
-	while (hexStr.length < 6) { hexStr = '0' + hexStr;   } 
-	if (hexStr == 'ffffff')
-		hexStr = '000000';
-
-	return hexStr
-}
-
-function animationColor() {
-	
-	ids.forEach(element => {
-		$('#' + element).attr('color', '#' + shiftHue($('#' + element).attr('color').substr(1)));
-	});
-}
-
-// RADIUS
-function shiftRadius(radius) {	
-	radius = (radius += 0.1 ) % 1;
-	if (radius == 0 )
-		radius = 0.1;
-		
-	return radius.toFixed(1);
-}
-
-function animationRadius() {
-	// console.log($('#' + id).attr('radius'))
-	ids.forEach(element => {
-		$('#' + element).attr('radius', shiftRadius(Number($('#' + element).attr('radius'))));
-	});
-	
 }
 
 function setInfo(block, markerN) {
@@ -273,7 +324,7 @@ function getLastFour() {
 }
 
 function verifyMarker() {
-    var amarker = document.querySelector("#container")
+    var amarker = document.querySelector("#mrk1")
     if(amarker.object3D.visible == true) {
         console.log('marker is visible');
     }
@@ -294,7 +345,7 @@ $(document).ready(function() {
     		console.log((window.location.search).substring(1))
 
 			// Limpia el '?1' de la url
-	        //window.history.pushState('', '', window.location.pathname);    		
+	        window.history.pushState('', '', window.location.pathname);    		
 		}
 
 		//setInterval(function(){verifyMarker()}, 1000);
