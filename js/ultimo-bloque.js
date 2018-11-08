@@ -160,7 +160,8 @@ function createBlock(block, markerN) {
 	
 	let iterators = {
 		changer: 1,
-		char: 0
+		char: 0,
+		sign: -1,
 	}
 
 	let blockType = makeCharacter(block.hash, iterators,3, 'clean') % 14;
@@ -180,6 +181,7 @@ function createBlock(block, markerN) {
 			
 			$('#mrk' + markerN).append(
 				"<" + BLOCK_TYPES[blockType].type + " \
+				class='go' \
 				radius-tubular='0.1' \
 				rotation='" + makeCharacter(block.hash, iterators,3, 'clean') % 360 + " 0 0' \
 				src='#texture" + block.index % TEXTURES + "' \
@@ -199,11 +201,13 @@ function createBlock(block, markerN) {
 				depth='" + makeCharacter(block.hash, iterators,1) + "' \
 				> \
 				<a-animation \
+					class='go' \
 					attribute='" + animation + "' \
 					easing='" + easing + "' \
 					direction='alternate' \
 					dur='" + animationDur + "' \
 					fill='"+ fill + "' \
+					pauseEvents='pause' \
 					to='" + makeCharacter(block.hash, iterators,1, ANIMATION_VALUES[animation])+ "' \
 					repeat='indefinite'> \
 				</a-animation> \
@@ -233,13 +237,18 @@ function makeCharacter(hash,iterators,numbersReq, type = 'pos') {
 			newNum = 0.5;
 		}
 	} else if (type == 'fullpos') {
-		var newNum = parseInt((hash).substring(iterators.char, iterators.char + numbersReq ), 16) / 10;
+		
+		var newNum = iterators.sign * (parseInt((hash).substring(iterators.char, iterators.char + numbersReq ), 16) / 10);
 		iterators.char += numbersReq;
 		if (iterators.char + numbersReq > hash.length ) {
 			iterators.char = iterators.changer;
 			iterators.changer++;
 		}
-		newNum += ' 0 ' + parseInt((hash).substring(iterators.char, iterators.char + numbersReq ), 16) / 10;
+		iterators.sign *= -1;
+		newNum += ' 0 ' + iterators.sign * (parseInt((hash).substring(iterators.char, iterators.char + numbersReq ), 16) / 10);
+		
+		
+		console.log(iterators.sign,newNum)
 	} else if (type == 'fullrot') {
 		var newNum = parseInt((hash).substring(iterators.char, iterators.char + 3 ), 16) % 360 + ' 45 90';
 	}
@@ -269,9 +278,9 @@ function setBlock (hash) {
 
 function setInfo(block, markerN) {
 
-	$('#mrk' + markerN).append("<a-plane color='#6b6b6b' width='3.2' height='1.4' rotation='-90 0 0' position='0 0 2.7'></a-plane>");
+	$('#mrk' + markerN).append("<a-plane color='#6b6b6b' width='3.2' height='1.4' rotation='-90 0 0' position='0 0 2'></a-plane>");
 
-	let yPos = 2.1;
+	let yPos = 1.4;
 	INFO_ATTR.forEach((element,i) => {
 		$('#mrk' + markerN).append('<a-text width="3" baseline="top" anchor="center" font="font/roboto.fnt" fontImage="font/roboto.png" position="0 0.1 ' + yPos + '" rotation="-90 0 0" value="' + element + block[ATTR_KEYS[i]] +'"></a-text>');
 		yPos += .2;
