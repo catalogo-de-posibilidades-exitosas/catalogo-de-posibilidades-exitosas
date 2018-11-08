@@ -174,9 +174,9 @@ function createBlock(block, markerN) {
 	easing += easing != 'linear' ? '-' + EASING_SUB[makeCharacter(block.hash, iterators,2, 'clean') % EASING_SUB.length] : '';
 	console.log('ANIMATION>>>>>',animation,'Easing>>>>>>',easing,'DUR>>>>>',animationDur, 'FILL>>>>>>>>', fill);
 
-	let y = -1;
-	while(y < 1.5) {
-		for(let x = -1; x < 1.5; x += 0.5) {
+	let y = -0.5;
+	while(y < 1) {
+		for(let x = -0.5; x < 1; x += 0.5) {
 			
 			$('#mrk' + markerN).append(
 				"<" + BLOCK_TYPES[blockType].type + " \
