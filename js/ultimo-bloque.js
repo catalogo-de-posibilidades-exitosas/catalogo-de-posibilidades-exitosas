@@ -552,14 +552,11 @@ function setAudio(hash, marker) {
 		var context = new webkitAudioContext()
 	}
 
-	//let context = new AudioContext() || new webkitAudioContext() || false;
-	//let context = new webkitAudioContext()
-
 	let array = hash.match(/.{1,3}/g);
 	let i = 0;
 
 	let amarker = document.querySelector("#mrk" + marker);
-	let oscillatorType = OSCILLATOR_TYPES[parseInt(hash.charAt(0),16) % 4];
+	//let oscillatorType = OSCILLATOR_TYPES[parseInt(hash.charAt(0),16) % 4];
 	let posibleNotes = NOTES[parseInt(hash.slice(0,3),16) % NOTES.length];
 	console.log(parseInt(hash.slice(0,3),16) % NOTES.length)
 	let interval;
@@ -600,40 +597,6 @@ function setAudio(hash, marker) {
 		}
 	},1000)
 }
-
-// function setAudio(hash,mrkr) {
-// 	let sound = parseInt(hash.slice(0,3), 16) % SOUNDS
-// 	console.log('SONIDO: ' + sound);
-// 	$('#vid' + mrkr).crossOrigin = 'anonymous';
-// 	$('#vid' + mrkr).attr('src','media/sounds/' + sound + '.wav');
-// 	setInterval(function(){verifyMarker(mrkr)}, 1000);
-// }
-
-// var playPromise = undefined;
-
-// function verifyMarker(mrkr) {
-// 	var amarker = document.querySelector("#mrk" + mrkr)
-// 	//return amarker.object3D.visible
-//     if(amarker.object3D.visible == true) {
-// 		console.log('marker is visible');
-// 		//$('#vid').attr('src','../media/sounds/0.wav');
-// 		playPromise = $('#vid' + mrkr).get(0).play();
-//     }
-//     else {
-// 		if (playPromise != undefined ) {
-// 			playPromise.then(_ => {
-// 				$('#vid' + mrkr).get(0).pause();
-// 				console.log('marker is lost');
-// 			  })
-// 			  .catch(error => {
-// 				// Auto-play was prevented
-// 				// Show paused UI.
-// 			  });
-
-// 		}
-
-//     }
-// }
 
 function makeCharacter(hash,iterators,numbersReq, type = 'pos') {
 
@@ -676,8 +639,6 @@ function makeCharacter(hash,iterators,numbersReq, type = 'pos') {
 	return newNum
 }
 
-
-
 function setInfo(block, markerN) {
 	
 	$('#mrk' + markerN).append("<a-plane color='#6b6b6b' width='3.2' height='1.4' rotation='-90 0 0' position='0 0 2'></a-plane>");
@@ -687,7 +648,6 @@ function setInfo(block, markerN) {
 		$('#mrk' + markerN).append('<a-text width="3" baseline="top" anchor="center" font="font/roboto.fnt" fontImage="font/roboto.png" position="0 0.1 ' + yPos + '" rotation="-90 0 0" value="' + element + block[ATTR_KEYS[i]] +'"></a-text>');
 		yPos += .2;
 	})
-	
 }
 
 function getAuthor(e) {
@@ -706,6 +666,9 @@ function getAuthor(e) {
 				setAudio(block.hash, i)
 			})
 		})
+		$( ".sound" ).fadeIn( 3000, function() {
+			$( ".sound" ).fadeOut( 3000 );
+		});
 	})
 }
 
@@ -738,6 +701,9 @@ function getLastFour() {
 			})
 			
 		})
+		$( ".sound" ).fadeIn( 3000, function() {
+			$( ".sound" ).fadeOut( 3000 );
+		});
 	})
 }
 

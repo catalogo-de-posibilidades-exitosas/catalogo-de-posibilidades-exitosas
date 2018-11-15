@@ -20,3 +20,13 @@
 .video {
     display: none
 }
+
+.sound {
+    position: absolute;
+    bottom: 40px;
+    background-color: white;
+    left: 20px;
+    display: none;
+    padding: 10px;
+    border-radius: 5px;
+}
