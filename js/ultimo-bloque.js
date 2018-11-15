@@ -388,7 +388,15 @@ function createBlock(block, markerN) {
 }
 
 function setAudio(hash, marker) {
-	let context = new webkitAudioContext()
+	try {
+		var context = new AudioContext() 
+	}
+	catch(err) {
+		var context = new webkitAudioContext()
+	}
+
+	//let context = new AudioContext() || new webkitAudioContext() || false;
+	//let context = new webkitAudioContext()
 
 	let array = hash.match(/.{1,3}/g);
 	let i = 0;
@@ -415,7 +423,7 @@ function setAudio(hash, marker) {
 						o.frequency.value = posibleNotes[parseInt(array[i],16) % posibleNotes.length];
 						o.type = OSCILLATOR_TYPES[parseInt(array[i].charAt(0),16) % 2];
 
-					
+						o.stop(context.currentTime + 2)
 						g.gain.exponentialRampToValueAtTime(
 							0.00001, context.currentTime + parseInt(array[i].charAt(0),16)
 						)
@@ -551,7 +559,10 @@ function getLastFour() {
 			let block = format(element);
 			setInfo(block,i);
 			createBlock(block,i);
-			setAudio(block.hash, i)
+			$('body').one('click', function () {
+				setAudio(block.hash, i)
+			})
+			
 		})
 	})
 }
