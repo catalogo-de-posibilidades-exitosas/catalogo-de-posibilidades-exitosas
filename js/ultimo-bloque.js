@@ -388,7 +388,7 @@ function createBlock(block, markerN) {
 }
 
 function setAudio(hash, marker) {
-	let context = new AudioContext()
+	let context = new webkitAudioContext()
 
 	let array = hash.match(/.{1,3}/g);
 	let i = 0;
@@ -522,7 +522,6 @@ function getAuthor(e) {
 			let block = format(element);
 			setInfo(block,i);
 			createBlock(block,i);
-			console.log(i)
 			setAudio(block.hash, i)
 		})
 	})
