@@ -434,13 +434,13 @@ function setAudio(hash, marker) {
 	},1000)
 }
 
-function setAudio(hash,mrkr) {
-	let sound = parseInt(hash.slice(0,3), 16) % SOUNDS
-	console.log('SONIDO: ' + sound);
-	$('#vid' + mrkr).crossOrigin = 'anonymous';
-	$('#vid' + mrkr).attr('src','media/sounds/' + sound + '.wav');
-	setInterval(function(){verifyMarker(mrkr)}, 1000);
-}
+// function setAudio(hash,mrkr) {
+// 	let sound = parseInt(hash.slice(0,3), 16) % SOUNDS
+// 	console.log('SONIDO: ' + sound);
+// 	$('#vid' + mrkr).crossOrigin = 'anonymous';
+// 	$('#vid' + mrkr).attr('src','media/sounds/' + sound + '.wav');
+// 	setInterval(function(){verifyMarker(mrkr)}, 1000);
+// }
 
 function verifyMarker(mrkr) {
 	var amarker = document.querySelector("#mrk" + mrkr)
@@ -573,6 +573,17 @@ $(document).ready(function() {
 	        window.history.pushState('', '', window.location.pathname);    		
 		}
 
+		// $('body').on('click', function () {
+		// 	console.log('sdfg')
+		// 	vid0.muted = false;
+		// 	var video=document.getElementById("vid0"); 
+		// 	if(video.muted){
+		// 		video.muted = false;
+		// 	  } else {
+		// 		video.muted = true;
+		// 	  }
+		// 	$('#vid0, #vid1, #vid2').get(0).muted = false;
+		// })
 		//setInterval(function(){verifyMarker()}, 1000);
 		
 })
