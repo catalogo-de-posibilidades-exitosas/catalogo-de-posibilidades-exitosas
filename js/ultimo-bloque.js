@@ -322,6 +322,163 @@ const NOTES = [
 	  3729.31,
 	  3951.07,
 	  4186.01
+	],
+	[
+	  16.35,
+	  24.5,
+	  36.71,
+	  55,
+	  82.41,
+	  123.47,
+	  185,
+	  277.18,
+	  415.3,
+	  622.25,
+	  932.33,
+	  1479.98,
+	  2217.46,
+	  3322.44
+	],
+	[
+	  17.32,
+	  25.96,
+	  38.89,
+	  58.27,
+	  87.31,
+	  130.81,
+	  196,
+	  293.66,
+	  440,
+	  659.26,
+	  987.77,
+	  1479.98,
+	  2217.46,
+	  3322.44
+	],
+	[
+	  17.32,
+	  25.96,
+	  38.89,
+	  58.27,
+	  92.5,
+	  138.59,
+	  207.65,
+	  311.13,
+	  466.16,
+	  698.46,
+	  1046.5,
+	  1567.98,
+	  2349.32,
+	  3520
+	],
+	[
+	  18.35,
+	  27.5,
+	  41.2,
+	  61.74,
+	  92.5,
+	  138.59,
+	  207.65,
+	  311.13,
+	  466.16,
+	  739.99,
+	  1108.73,
+	  1661.22,
+	  2489.02,
+	  3729.31
+	],
+	[
+	  19.45,
+	  29.14,
+	  43.65,
+	  65.41,
+	  98,
+	  146.83,
+	  220,
+	  329.63,
+	  493.88,
+	  739.99,
+	  1108.73,
+	  1661.22,
+	  2489.02,
+	  3729.31
+	],
+	[
+	  19.45,
+	  29.14,
+	  46.25,
+	  69.3,
+	  103.83,
+	  155.56,
+	  233.08,
+	  349.23,
+	  523.25,
+	  783.99,
+	  1174.66,
+	  1760,
+	  2637.02,
+	  3951.07
+	],
+	[
+	  20.6,
+	  30.87,
+	  46.25,
+	  69.3,
+	  103.83,
+	  155.56,
+	  233.08,
+	  369.99,
+	  554.37,
+	  830.61,
+	  1244.51,
+	  1864.66,
+	  2793.83,
+	  4186.01
+	],
+	[
+	  21.83,
+	  32.7,
+	  49,
+	  73.42,
+	  110,
+	  164.81,
+	  246.94,
+	  369.99,
+	  554.37,
+	  830.61,
+	  1244.51,
+	  1864.66,
+	  2959.96
+	],
+	[
+	  23.12,
+	  34.65,
+	  51.91,
+	  77.78,
+	  116.54,
+	  174.61,
+	  261.63,
+	  392,
+	  587.33,
+	  880,
+	  1318.51,
+	  1975.53,
+	  2959.96
+	],
+	[
+	  23.12,
+	  34.65,
+	  51.91,
+	  77.78,
+	  116.54,
+	  185,
+	  277.18,
+	  415.3,
+	  622.25,
+	  932.33,
+	  1396.91,
+	  2093,
+	  3135.96
 	]
   ]
 
@@ -403,8 +560,8 @@ function createBlock(block, markerN) {
 
 // 	let amarker = document.querySelector("#mrk" + marker);
 // 	let oscillatorType = OSCILLATOR_TYPES[parseInt(hash.charAt(0),16) % 4];
-// 	let posibleNotes = NOTES[parseInt(hash.charAt(0),16) % NOTES.length];
-
+// 	let posibleNotes = NOTES[parseInt(hash.slice(0,3),16) % NOTES.length];
+// 	console.log(parseInt(hash.slice(0,3),16) % NOTES.length)
 // 	let interval;
 // 	let mrkrVisible;
 // 	setInterval(function() {
@@ -423,7 +580,7 @@ function createBlock(block, markerN) {
 // 						o.frequency.value = posibleNotes[parseInt(array[i],16) % posibleNotes.length];
 // 						o.type = OSCILLATOR_TYPES[parseInt(array[i].charAt(0),16) % 2];
 
-// 						o.stop(context.currentTime + 2)
+// 						o.stop(context.currentTime + 1)
 // 						g.gain.exponentialRampToValueAtTime(
 // 							0.00001, context.currentTime + parseInt(array[i].charAt(0),16)
 // 						)
@@ -459,7 +616,7 @@ function verifyMarker(mrkr) {
 		$('#vid' + mrkr).get(0).play();
     }
     else {
-		$('#vid' + mrkr).get(0).pause();
+		//$('#vid' + mrkr).get(0).pause();
         console.log('marker is lost');
     }
 }
