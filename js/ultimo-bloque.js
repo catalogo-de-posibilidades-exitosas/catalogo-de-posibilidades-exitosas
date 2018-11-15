@@ -606,18 +606,28 @@ function setAudio(hash,mrkr) {
 	$('#vid' + mrkr).attr('src','media/sounds/' + sound + '.wav');
 	setInterval(function(){verifyMarker(mrkr)}, 1000);
 }
-
+var playPromise = undefined;
 function verifyMarker(mrkr) {
 	var amarker = document.querySelector("#mrk" + mrkr)
 	//return amarker.object3D.visible
     if(amarker.object3D.visible == true) {
 		console.log('marker is visible');
 		//$('#vid').attr('src','../media/sounds/0.wav');
-		$('#vid' + mrkr).get(0).play();
+		playPromise = $('#vid' + mrkr).get(0).play();
     }
     else {
-		//$('#vid' + mrkr).get(0).pause();
-        console.log('marker is lost');
+		if (playPromise != undefined ) {
+			playPromise.then(_ => {
+				$('#vid' + mrkr).get(0).pause();
+				console.log('marker is lost');
+			  })
+			  .catch(error => {
+				// Auto-play was prevented
+				// Show paused UI.
+			  });
+
+		}
+
     }
 }
 function makeCharacter(hash,iterators,numbersReq, type = 'pos') {
