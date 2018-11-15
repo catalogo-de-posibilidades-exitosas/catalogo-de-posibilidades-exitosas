@@ -5,7 +5,7 @@ const ATTR_KEYS = ["index","author","timestamp","hash"];
 const EASING = ['linear','ease','ease-in','ease-out','ease-in-out'];
 const EASING_SUB = ['cubic','quad','quart','quint','sine','expo','circ','elastic','back','bounce'];
 const FILL = ['backwards','none','both','forwards'];
-const OSCILLATOR_TYPES = ['sine','triangle'];
+const OSCILLATOR_TYPES = ['sine','triangle','square'];
 const ANIMATION_VALUES = {
 	'rotation': 'fullrot',
 	'color': 'hex',
@@ -544,92 +544,97 @@ function createBlock(block, markerN) {
 	}
 }
 
-// function setAudio(hash, marker) {
-// 	try {
-// 		var context = new AudioContext() 
-// 	}
-// 	catch(err) {
-// 		var context = new webkitAudioContext()
-// 	}
+function setAudio(hash, marker) {
+	try {
+		var context = new AudioContext() 
+	}
+	catch(err) {
+		var context = new webkitAudioContext()
+	}
 
-// 	//let context = new AudioContext() || new webkitAudioContext() || false;
-// 	//let context = new webkitAudioContext()
+	//let context = new AudioContext() || new webkitAudioContext() || false;
+	//let context = new webkitAudioContext()
 
-// 	let array = hash.match(/.{1,3}/g);
-// 	let i = 0;
+	let array = hash.match(/.{1,3}/g);
+	let i = 0;
 
-// 	let amarker = document.querySelector("#mrk" + marker);
-// 	let oscillatorType = OSCILLATOR_TYPES[parseInt(hash.charAt(0),16) % 4];
-// 	let posibleNotes = NOTES[parseInt(hash.slice(0,3),16) % NOTES.length];
-// 	console.log(parseInt(hash.slice(0,3),16) % NOTES.length)
-// 	let interval;
-// 	let mrkrVisible;
-// 	setInterval(function() {
-// 		if(amarker.object3D.visible) {
+	let amarker = document.querySelector("#mrk" + marker);
+	let oscillatorType = OSCILLATOR_TYPES[parseInt(hash.charAt(0),16) % 4];
+	let posibleNotes = NOTES[parseInt(hash.slice(0,3),16) % NOTES.length];
+	console.log(parseInt(hash.slice(0,3),16) % NOTES.length)
+	let interval;
+	let mrkrVisible;
+	let dur = parseInt(hash.slice(0,3),16) % 1000;
+	setInterval(function() {
+		if(amarker.object3D.visible) {
 			
-// 			if(!mrkrVisible) {
-// 				interval = setInterval(function() {
-// 					if(i < array.length) {
+			if(!mrkrVisible) {
+				interval = setInterval(function() {
+					if(i < array.length) {
 			
-// 						let o = context.createOscillator()
-// 						let g = context.createGain()
-// 						o.connect(g)
-// 						g.connect(context.destination)
-// 						o.start(0)
+						let o = context.createOscillator()
+						let g = context.createGain()
+						o.connect(g)
+						g.connect(context.destination)
+						o.start(0)
 			
-// 						o.frequency.value = posibleNotes[parseInt(array[i],16) % posibleNotes.length];
-// 						o.type = OSCILLATOR_TYPES[parseInt(array[i].charAt(0),16) % 2];
+						o.frequency.value = posibleNotes[parseInt(array[i],16) % posibleNotes.length];
+						o.type = OSCILLATOR_TYPES[parseInt(array[i].charAt(0),16) % 3];
 
-// 						o.stop(context.currentTime + 1)
-// 						g.gain.exponentialRampToValueAtTime(
-// 							0.00001, context.currentTime + parseInt(array[i].charAt(0),16)
-// 						)
+						o.stop(context.currentTime + 0.1)
+						
+						// g.gain.exponentialRampToValueAtTime(
+						// 	0.00001, context.currentTime + parseInt(array[i].charAt(0),16)
+						// )
 			
-// 						i++
-// 					} else {
-// 						i = 0;
-// 					}
-// 				}, 500);
-// 				mrkrVisible = true;
-// 			}
-// 		} else {
-// 			clearInterval(interval);
-// 			mrkrVisible = false;
-// 		}
-// 	},1000)
+						i++
+					} else {
+						i = 0;
+					}
+				}, dur);
+				mrkrVisible = true;
+			}
+		} else {
+			clearInterval(interval);
+			mrkrVisible = false;
+		}
+	},1000)
+}
+
+// function setAudio(hash,mrkr) {
+// 	let sound = parseInt(hash.slice(0,3), 16) % SOUNDS
+// 	console.log('SONIDO: ' + sound);
+// 	$('#vid' + mrkr).crossOrigin = 'anonymous';
+// 	$('#vid' + mrkr).attr('src','media/sounds/' + sound + '.wav');
+// 	setInterval(function(){verifyMarker(mrkr)}, 1000);
 // }
 
-function setAudio(hash,mrkr) {
-	let sound = parseInt(hash.slice(0,3), 16) % SOUNDS
-	console.log('SONIDO: ' + sound);
-	$('#vid' + mrkr).crossOrigin = 'anonymous';
-	$('#vid' + mrkr).attr('src','media/sounds/' + sound + '.wav');
-	setInterval(function(){verifyMarker(mrkr)}, 1000);
-}
-var playPromise = undefined;
-function verifyMarker(mrkr) {
-	var amarker = document.querySelector("#mrk" + mrkr)
-	//return amarker.object3D.visible
-    if(amarker.object3D.visible == true) {
-		console.log('marker is visible');
-		//$('#vid').attr('src','../media/sounds/0.wav');
-		playPromise = $('#vid' + mrkr).get(0).play();
-    }
-    else {
-		if (playPromise != undefined ) {
-			playPromise.then(_ => {
-				$('#vid' + mrkr).get(0).pause();
-				console.log('marker is lost');
-			  })
-			  .catch(error => {
-				// Auto-play was prevented
-				// Show paused UI.
-			  });
+// var playPromise = undefined;
 
-		}
+// function verifyMarker(mrkr) {
+// 	var amarker = document.querySelector("#mrk" + mrkr)
+// 	//return amarker.object3D.visible
+//     if(amarker.object3D.visible == true) {
+// 		console.log('marker is visible');
+// 		//$('#vid').attr('src','../media/sounds/0.wav');
+// 		playPromise = $('#vid' + mrkr).get(0).play();
+//     }
+//     else {
+// 		if (playPromise != undefined ) {
+// 			playPromise.then(_ => {
+// 				$('#vid' + mrkr).get(0).pause();
+// 				console.log('marker is lost');
+// 			  })
+// 			  .catch(error => {
+// 				// Auto-play was prevented
+// 				// Show paused UI.
+// 			  });
 
-    }
-}
+// 		}
+
+//     }
+// }
+
 function makeCharacter(hash,iterators,numbersReq, type = 'pos') {
 
 	if (iterators.char + 6 > hash.length ) {
@@ -751,18 +756,5 @@ $(document).ready(function() {
 			// Limpia el '?1' de la url
 	        window.history.pushState('', '', window.location.pathname);    		
 		}
-
-		// $('body').on('click', function () {
-		// 	console.log('sdfg')
-		// 	vid0.muted = false;
-		// 	var video=document.getElementById("vid0"); 
-		// 	if(video.muted){
-		// 		video.muted = false;
-		// 	  } else {
-		// 		video.muted = true;
-		// 	  }
-		// 	$('#vid0, #vid1, #vid2').get(0).muted = false;
-		// })
-		//setInterval(function(){verifyMarker()}, 1000);
 		
 })
