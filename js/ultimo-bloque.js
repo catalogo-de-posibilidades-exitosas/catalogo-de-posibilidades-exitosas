@@ -530,7 +530,9 @@ function getAuthor(e) {
 			let block = format(element);
 			setInfo(block,i);
 			createBlock(block,i);
-			setAudio(block.hash, i)
+			$('body').on('click', function () {
+				setAudio(block.hash, i)
+			})
 		})
 	})
 }
@@ -559,7 +561,7 @@ function getLastFour() {
 			let block = format(element);
 			setInfo(block,i);
 			createBlock(block,i);
-			$('body').one('click', function () {
+			$('body').on('click', function () {
 				setAudio(block.hash, i)
 			})
 			
