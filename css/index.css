@@ -6,7 +6,9 @@
 	position: fixed;
 	margin: 10px;
 }
-
+#arjsDebugUIContainer, .a-enter-vr {
+	display: none !important;
+}
 .buttons {
 	height: 100vh;
 	display: flex;

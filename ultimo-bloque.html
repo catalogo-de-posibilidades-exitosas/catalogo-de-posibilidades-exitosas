@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
-	<script type="text/javascript" src="js/screenshot.js"></script>
+
 	<script type="text/javascript" src="js/aframe.js"></script>
 	<!-- <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script> -->
 	<script type="text/javascript" src="js/ar2.js"></script>
@@ -16,9 +16,10 @@
 	//THREEx.ArToolkitContext.baseURL = 'https://rawgit.com/jeromeetienne/ar.js/master/three.js/'
 	THREEx.ArToolkitContext.baseURL = 'js/ar-data/patts/'
 	</script>
-  	<body style='margin : 0px; overflow: hidden;'>
-		<img id="test" src=""/>
-
+	  <body style='margin : 0px; overflow: hidden;'>
+		<video id="vid0" class="video" src=""></video>
+		<video id="vid1" class="video" src=""></video>
+		<video id="vid2" class="video" src=""></video>
 		<!-- Twitter Scene -->
 		<!-- <a-scene id="twitter" style="position: fixed" embedded>
 			<a-assets timeout="0">
@@ -79,7 +80,6 @@
 			<a-marker type='barcode' value='1' id="mrk0"></a-marker>
 			<a-marker type='barcode' value='2' id="mrk1"></a-marker>
 			<a-marker type='barcode' value='3' id="mrk2"></a-marker>
-			<a-marker type='barcode' value='4' id="mrk3"></a-marker>
 
 			<a-entity id="camera" camera ></a-entity>
 
