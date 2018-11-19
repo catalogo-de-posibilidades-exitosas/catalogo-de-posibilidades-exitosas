@@ -5,7 +5,7 @@ const ATTR_KEYS = ["index","author","timestamp","hash"];
 const EASING = ['linear','ease','ease-in','ease-out','ease-in-out'];
 const EASING_SUB = ['cubic','quad','quart','quint','sine','expo','circ','elastic','back','bounce'];
 const FILL = ['backwards','none','both','forwards'];
-const OSCILLATOR_TYPES = ['sine','triangle','square'];
+const OSCILLATOR_TYPES = ['sine','triangle','square', 'sawtooth'];
 const ANIMATION_VALUES = {
 	'rotation': 'fullrot',
 	'color': 'hex',
@@ -544,58 +544,200 @@ function createBlock(block, markerN) {
 	}
 }
 
+// function setAudio(hash, marker) {
+// 	try {
+// 		var context = new AudioContext() 
+// 	}
+// 	catch(err) {
+// 		var context = new webkitAudioContext()
+// 	}
+
+// 	let array = hash.match(/.{1,3}/g);
+// 	let i = 0;
+
+// 	let amarker = document.querySelector("#mrk" + marker);
+// 	//let oscillatorType = OSCILLATOR_TYPES[parseInt(hash.charAt(0),16) % 4];
+// 	let posibleNotes = NOTES[parseInt(hash.slice(0,3),16) % NOTES.length];
+// 	console.log(parseInt(hash.slice(0,3),16) % NOTES.length)
+// 	let interval;
+// 	let mrkrVisible;
+// 	let dur = parseInt(hash.slice(0,3),16) % 1000;
+// 	setInterval(function() {
+// 		if(amarker.object3D.visible) {
+			
+// 			if(!mrkrVisible) {
+// 				interval = setInterval(function() {
+// 					if(i < array.length) {
+			
+// 						let o = context.createOscillator()
+// 						let g = context.createGain()
+// 						o.connect(g)
+// 						g.connect(context.destination)
+// 						o.start(0)
+			
+// 						o.frequency.value = posibleNotes[parseInt(array[i],16) % posibleNotes.length];
+// 						o.type = OSCILLATOR_TYPES[parseInt(array[i].charAt(0),16) % 3];
+
+// 						o.stop(context.currentTime + 0.1)
+						
+// 						// g.gain.exponentialRampToValueAtTime(
+// 						// 	0.00001, context.currentTime + parseInt(array[i].charAt(0),16)
+// 						// )
+			
+// 						i++
+// 					} else {
+// 						i = 0;
+// 					}
+// 				}, dur);
+// 				mrkrVisible = true;
+// 			}
+// 		} else {
+// 			clearInterval(interval);
+// 			mrkrVisible = false;
+// 		}
+// 	},1000)
+// }
+
+const SOUND_VAR = ['oscillator', 'filter' , 'lfo','erratic'];
+const FILTER_TYPES = ['highpass', 'lowpass', 'bandpass','highshelf','lowshelf', 'peaking', 'notch', 'allpass'];
+const FREC_POS = [20,70,120,170,220,270,320];
+const ERRATIC_POS = [20,70,120,170,220,270,320,370,420,470,520,570,620,670,720,770,820];
+
 function setAudio(hash, marker) {
+	let c,d,e,g,h,i,k;
+	let sounder = SOUND_VAR[parseInt(hash.slice(0,3), 16) % SOUND_VAR.length];
+	console.log(sounder)
+	let oscFrec = parseInt(hash.slice(0,3), 16) % 1000;
+	let oscType = OSCILLATOR_TYPES[parseInt(hash.slice(0,3), 16) % OSCILLATOR_TYPES.length]
+	let filterFrec = parseInt(hash.slice(3,6), 16) % 700;
+	let filterType = FILTER_TYPES[parseInt(hash.slice(3,6), 16) % FILTER_TYPES.length];
+	let lfoFrec = parseInt(hash.charAt(0), 16) / 6;
+	let lfoType = OSCILLATOR_TYPES[parseInt(hash.slice(6,9), 16) % OSCILLATOR_TYPES.length]
+	let minFrec = FREC_POS[parseInt(hash.slice(6,9), 16) % FREC_POS.length];
+	let maxFrec = minFrec + 400;
+	let raiser = parseInt(hash.slice(10,11), 16);
+	let intervalSpeed = parseInt(hash.slice(12,14), 16);
+	
 	try {
 		var context = new AudioContext() 
 	}
 	catch(err) {
 		var context = new webkitAudioContext()
 	}
-
-	let array = hash.match(/.{1,3}/g);
-	let i = 0;
+	
+	c = {};
+	
+	d = context.createOscillator();
+	d.frequency.value = oscFrec;
+	d.type = oscType;
+	
+	c.oscillator = d;
+	
+	e = context.createBiquadFilter();
+	e.type =  filterType;
+	e.frequency.value = filterFrec;
+	
+	c.filter = e;
+	
+	g = context.createGain();
+	g.gain.value = .01;
+	
+	c.gain = g;
+	
+	h = context.createGain();
+	h.gain.value = 0.1;
+	
+	i = context.createOscillator();
+	i.frequency.value = lfoFrec;
+	i.type = lfoType;
+	
+	c.lfo = i;
+	i.start(0)
+	
+	k = context.createGain();
+	k.gain.value = 0
+	d.connect(e)
+	e.connect(g)
+	i.connect(h)
+	h.connect(g.gain)
+	g.connect(k)
+	k.connect(context.destination)
+	
+	c.volume=k.gain.value
+	d.start()	
 
 	let amarker = document.querySelector("#mrk" + marker);
-	//let oscillatorType = OSCILLATOR_TYPES[parseInt(hash.charAt(0),16) % 4];
-	let posibleNotes = NOTES[parseInt(hash.slice(0,3),16) % NOTES.length];
-	console.log(parseInt(hash.slice(0,3),16) % NOTES.length)
-	let interval;
-	let mrkrVisible;
-	let dur = parseInt(hash.slice(0,3),16) % 1000;
+
+	switch(sounder) {
+		case 'lfo':
+			let updownn = true;
+			setInterval(function () {
+				if(i.frequency.value > lfoFrec + 4) {
+					updownn = false;
+				} else if(i.frequency.value < lfoFrec) {
+					updownn = true;
+				}
+				if(updownn) {
+					i.frequency.value = i.frequency.value + raiser;
+				} else {
+					i.frequency.value = i.frequency.value - raiser;
+				}
+				
+			},intervalSpeed)
+			break;
+		case 'oscillator':
+		let up = true;
+			setInterval(function () {
+				if(d.frequency.value > maxFrec) {
+					up = false;
+				} else if(d.frequency.value < minFrec) {
+					up = true;
+				}
+				if(up) {
+					d.frequency.value = d.frequency.value + raiser;
+				} else {
+					d.frequency.value = d.frequency.value - raiser;
+				}
+			},intervalSpeed)
+			break;
+			case 'erratic':
+				setInterval(function () {
+					d.frequency.value = ERRATIC_POS[Math.floor(Math.random() * ERRATIC_POS.length)]
+					console.log(d.frequency.value)
+				},intervalSpeed)
+				
+				break;
+			case 'filter':
+			let updownn2 = true;
+				setInterval(function () {
+					if(e.frequency.value > maxFrec) {
+						updownn2 = false;
+					} else if(e.frequency.value < minFrec) {
+						updownn2 = true;
+					}
+					if(updownn2) {
+						e.frequency.value = d.frequency.value + raiser;
+					} else {
+						e.frequency.value = d.frequency.value - raiser;
+					}
+				},intervalSpeed)
+				break;
+		default:
+			console.log('hola')
+	}
+
+
+
+	console.log(c)
 	setInterval(function() {
 		if(amarker.object3D.visible) {
-			
-			if(!mrkrVisible) {
-				interval = setInterval(function() {
-					if(i < array.length) {
-			
-						let o = context.createOscillator()
-						let g = context.createGain()
-						o.connect(g)
-						g.connect(context.destination)
-						o.start(0)
-			
-						o.frequency.value = posibleNotes[parseInt(array[i],16) % posibleNotes.length];
-						o.type = OSCILLATOR_TYPES[parseInt(array[i].charAt(0),16) % 3];
-
-						o.stop(context.currentTime + 0.1)
-						
-						// g.gain.exponentialRampToValueAtTime(
-						// 	0.00001, context.currentTime + parseInt(array[i].charAt(0),16)
-						// )
-			
-						i++
-					} else {
-						i = 0;
-					}
-				}, dur);
-				mrkrVisible = true;
-			}
+			k.gain.value = 1
 		} else {
-			clearInterval(interval);
-			mrkrVisible = false;
+			k.gain.value = 0
 		}
 	},1000)
+
+
 }
 
 function makeCharacter(hash,iterators,numbersReq, type = 'pos') {
@@ -662,7 +804,7 @@ function getAuthor(e) {
 			let block = format(element);
 			setInfo(block,i);
 			createBlock(block,i);
-			$('body').on('click', function () {
+			$('body').one('click', function () {
 				setAudio(block.hash, i)
 			})
 		})
@@ -696,7 +838,7 @@ function getLastFour() {
 			let block = format(element);
 			setInfo(block,i);
 			createBlock(block,i);
-			$('body').on('click', function () {
+			$('body').one('click', function () {
 				setAudio(block.hash, i)
 			})
 			
@@ -720,7 +862,7 @@ $(document).ready(function() {
     		getAuthor((window.location.search).substring(1));
 
 			// Limpia el '?1' de la url
-	        window.history.pushState('', '', window.location.pathname);    		
+	       // window.history.pushState('', '', window.location.pathname);    		
 		}
-		
+
 })
