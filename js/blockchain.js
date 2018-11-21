@@ -273,7 +273,7 @@ function getFullCatalog() {
 	.then(data => { return data.json() })
 	.then( res => {
 		console.log(res);
-		var options = '<option value="" disabled selected>Selecciona un autor</option>';
+		var options = '<option value="" disabled selected>Seleccioná un autor</option>';
 		res.forEach(function(element) {
 			options += '<option value="' + element[0] + '">' + element[4] + '</option>'
 		})

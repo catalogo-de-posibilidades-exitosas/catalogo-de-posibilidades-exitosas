@@ -544,60 +544,6 @@ function createBlock(block, markerN) {
 	}
 }
 
-// function setAudio(hash, marker) {
-// 	try {
-// 		var context = new AudioContext() 
-// 	}
-// 	catch(err) {
-// 		var context = new webkitAudioContext()
-// 	}
-
-// 	let array = hash.match(/.{1,3}/g);
-// 	let i = 0;
-
-// 	let amarker = document.querySelector("#mrk" + marker);
-// 	//let oscillatorType = OSCILLATOR_TYPES[parseInt(hash.charAt(0),16) % 4];
-// 	let posibleNotes = NOTES[parseInt(hash.slice(0,3),16) % NOTES.length];
-// 	console.log(parseInt(hash.slice(0,3),16) % NOTES.length)
-// 	let interval;
-// 	let mrkrVisible;
-// 	let dur = parseInt(hash.slice(0,3),16) % 1000;
-// 	setInterval(function() {
-// 		if(amarker.object3D.visible) {
-			
-// 			if(!mrkrVisible) {
-// 				interval = setInterval(function() {
-// 					if(i < array.length) {
-			
-// 						let o = context.createOscillator()
-// 						let g = context.createGain()
-// 						o.connect(g)
-// 						g.connect(context.destination)
-// 						o.start(0)
-			
-// 						o.frequency.value = posibleNotes[parseInt(array[i],16) % posibleNotes.length];
-// 						o.type = OSCILLATOR_TYPES[parseInt(array[i].charAt(0),16) % 3];
-
-// 						o.stop(context.currentTime + 0.1)
-						
-// 						// g.gain.exponentialRampToValueAtTime(
-// 						// 	0.00001, context.currentTime + parseInt(array[i].charAt(0),16)
-// 						// )
-			
-// 						i++
-// 					} else {
-// 						i = 0;
-// 					}
-// 				}, dur);
-// 				mrkrVisible = true;
-// 			}
-// 		} else {
-// 			clearInterval(interval);
-// 			mrkrVisible = false;
-// 		}
-// 	},1000)
-// }
-
 const SOUND_VAR = ['oscillator', 'filter' , 'lfo','erratic'];
 const FILTER_TYPES = ['highpass', 'lowpass', 'bandpass','highshelf','lowshelf', 'peaking', 'notch', 'allpass'];
 const FREC_POS = [20,70,120,170,220,270,320];
@@ -703,7 +649,7 @@ function setAudio(hash, marker) {
 			case 'erratic':
 				setInterval(function () {
 					d.frequency.value = ERRATIC_POS[Math.floor(Math.random() * ERRATIC_POS.length)]
-					console.log(d.frequency.value)
+					
 				},intervalSpeed)
 				
 				break;
@@ -781,37 +727,38 @@ function makeCharacter(hash,iterators,numbersReq, type = 'pos') {
 	return newNum
 }
 
-function setInfo(block, markerN) {
+// function setInfo(block, markerN) {
 	
-	$('#mrk' + markerN).append("<a-plane color='#6b6b6b' width='3.2' height='1.4' rotation='-90 0 0' position='0 0 2'></a-plane>");
+// 	$('#mrk' + markerN).append("<a-plane color='#6b6b6b' width='3.2' height='1.4' rotation='-90 0 0' position='0 0 2'></a-plane>");
 
-	let yPos = 1.4;
+// 	let yPos = 1.4;
+// 	INFO_ATTR.forEach((element,i) => {
+// 		$('#mrk' + markerN).append('<a-text width="3" baseline="top" anchor="center" font="font/roboto.fnt" fontImage="font/roboto.png" position="0 0.1 ' + yPos + '" rotation="-90 0 0" value="' + element + block[ATTR_KEYS[i]] +'"></a-text>');
+// 		yPos += .2;
+// 	})
+// }
+
+function setInfo(block, markerN) {
+		
 	INFO_ATTR.forEach((element,i) => {
-		$('#mrk' + markerN).append('<a-text width="3" baseline="top" anchor="center" font="font/roboto.fnt" fontImage="font/roboto.png" position="0 0.1 ' + yPos + '" rotation="-90 0 0" value="' + element + block[ATTR_KEYS[i]] +'"></a-text>');
-		yPos += .2;
+		$('#info' + markerN).append('<div><b>' + element + '</b>'  + block[ATTR_KEYS[i]] + '</div>')
 	})
+
+	let amarker = document.querySelector("#mrk" + markerN);
+	setInterval(function() {
+		if(amarker.object3D.visible) {
+			$('#info' + markerN).show();
+		} else {
+			$('#info' + markerN).hide();
+		}
+	},1000)
 }
 
 function getAuthor(e) {
 
 	const url = 'https://hbs-web.herokuapp.com/api/v1/tasks/' + e;
+	setAll(url);
 
-	fetch(url)
-	.then(data => { return data.json() })
-	.then( res => {
-		//console.log(res);
-		res.forEach((element,i) => {
-			let block = format(element);
-			setInfo(block,i);
-			createBlock(block,i);
-			$('body').one('click', function () {
-				setAudio(block.hash, i)
-			})
-		})
-		$( ".sound" ).fadeIn( 3000, function() {
-			$( ".sound" ).fadeOut( 3000 );
-		});
-	})
 }
 
 function format (block) {
@@ -828,12 +775,13 @@ function format (block) {
 function getLastFour() {
 
 	const url = 'https://hbs-web.herokuapp.com/api/v1/last-four';
+	setAll(url);
+}
 
+function setAll (url) {
 	fetch(url)
 	.then(data => { return data.json() })
 	.then( res => {
-
-
 		res.forEach((element,i) => {
 			let block = format(element);
 			setInfo(block,i);
@@ -841,15 +789,12 @@ function getLastFour() {
 			$('body').one('click', function () {
 				setAudio(block.hash, i)
 			})
-			
 		})
 		$( ".sound" ).fadeIn( 3000, function() {
 			$( ".sound" ).fadeOut( 3000 );
 		});
 	})
 }
-
-
 
 $(document).ready(function() {
 	    if(window.location.search == '') {
