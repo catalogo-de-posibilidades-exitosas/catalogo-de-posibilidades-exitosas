@@ -490,7 +490,7 @@ function createBlock(block, markerN) {
 		char: 0,
 		sign: -1,
 	}
-
+	$('#mrk' + markerN).html('');
 	let blockType = makeCharacter(block.hash, iterators,3, 'clean') % 14;
 	let animation = BLOCK_TYPES[blockType].animations[makeCharacter(block.hash, iterators,1, 'clean') % BLOCK_TYPES[blockType].animations.length];
 	let animationDur = makeCharacter(block.hash, iterators,4, 'clean') % 10000;
@@ -548,6 +548,7 @@ const SOUND_VAR = ['oscillator', 'filter' , 'lfo','erratic'];
 const FILTER_TYPES = ['highpass', 'lowpass', 'bandpass','highshelf','lowshelf', 'peaking', 'notch', 'allpass'];
 const FREC_POS = [20,70,120,170,220,270,320];
 const ERRATIC_POS = [20,70,120,170,220,270,320,370,420,470,520,570,620,670,720,770,820];
+var soundChange = false;
 
 function setAudio(hash, marker) {
 	let c,d,e,g,h,i,k;
@@ -613,11 +614,11 @@ function setAudio(hash, marker) {
 	d.start()	
 
 	let amarker = document.querySelector("#mrk" + marker);
-
+	let soundInterval;
 	switch(sounder) {
 		case 'lfo':
 			let updownn = true;
-			setInterval(function () {
+			soundInterval = setInterval(function () {
 				if(i.frequency.value > lfoFrec + 4) {
 					updownn = false;
 				} else if(i.frequency.value < lfoFrec) {
@@ -632,8 +633,8 @@ function setAudio(hash, marker) {
 			},intervalSpeed)
 			break;
 		case 'oscillator':
-		let up = true;
-			setInterval(function () {
+			let up = true;
+			soundInterval = setInterval(function () {
 				if(d.frequency.value > maxFrec) {
 					up = false;
 				} else if(d.frequency.value < minFrec) {
@@ -647,15 +648,15 @@ function setAudio(hash, marker) {
 			},intervalSpeed)
 			break;
 			case 'erratic':
-				setInterval(function () {
+			soundInterval = setInterval(function () {
 					d.frequency.value = ERRATIC_POS[Math.floor(Math.random() * ERRATIC_POS.length)]
 					
 				},intervalSpeed)
 				
 				break;
 			case 'filter':
-			let updownn2 = true;
-				setInterval(function () {
+				let updownn2 = true;
+				soundInterval = setInterval(function () {
 					if(e.frequency.value > maxFrec) {
 						updownn2 = false;
 					} else if(e.frequency.value < minFrec) {
@@ -672,14 +673,21 @@ function setAudio(hash, marker) {
 			console.log('hola')
 	}
 
-
-
-	console.log(c)
-	setInterval(function() {
+	let interval = setInterval(function() {
 		if(amarker.object3D.visible) {
 			k.gain.value = 1
+			if(soundChange) {
+				clearInterval(interval);
+				k.gain.value = 0
+				d.stop(0)
+			}
 		} else {
 			k.gain.value = 0
+			if(soundChange) {
+				clearInterval(interval);
+				k.gain.value = 0;
+				d.stop(0);
+			}
 		}
 	},1000)
 
@@ -739,7 +747,7 @@ function makeCharacter(hash,iterators,numbersReq, type = 'pos') {
 // }
 
 function setInfo(block, markerN) {
-		
+	$('#info' + markerN).html('')
 	INFO_ATTR.forEach((element,i) => {
 		$('#info' + markerN).append('<div><b>' + element + '</b>'  + block[ATTR_KEYS[i]] + '</div>')
 	})
@@ -757,7 +765,24 @@ function setInfo(block, markerN) {
 function getAuthor(e) {
 
 	const url = 'https://hbs-web.herokuapp.com/api/v1/tasks/' + e;
-	setAll(url);
+
+	fetch(url)
+	.then(data => { return data.json() })
+	.then( res => {
+
+		res.forEach((element,i) => {
+
+			let block = format(element);
+			setInfo(block,i);
+			createBlock(block,i);
+			$('body').one('click', function () {
+				setAudio(block.hash, i)
+			})
+		})
+		$( ".sound" ).fadeIn( 3000, function() {
+			$( ".sound" ).fadeOut( 3000 );
+		});
+	})
 
 }
 
@@ -772,18 +797,53 @@ function format (block) {
 	return formated;
 }
 
-function getLastFour() {
+
+function refreshFour() {
 
 	const url = 'https://hbs-web.herokuapp.com/api/v1/last-four';
-	setAll(url);
-}
 
-function setAll (url) {
 	fetch(url)
 	.then(data => { return data.json() })
 	.then( res => {
+		let tester = format(res[2]);
+		if(tester.index > lastCreated) {
+			soundChange = true;
+			res.forEach((element,i) => {
+
+				let block = format(element);
+				setInfo(block,i);
+				createBlock(block,i);
+				$('body').one('click', function () {
+					soundChange = false;
+					setAudio(block.hash, i);
+					$( ".sound" ).fadeIn( 3000, function() {
+						$( ".sound" ).fadeOut( 3000 );
+					});
+				})
+			})
+			lastCreated = tester.index;
+		}
+	})
+
+}
+var lastCreated;
+function getLastFour() {
+	const url = 'https://hbs-web.herokuapp.com/api/v1/last-four';
+	fetch(url)
+	.then(data => { return data.json() })
+	.then( res => {
+
 		res.forEach((element,i) => {
+
 			let block = format(element);
+			if( i == 2) {
+				lastCreated = block.index;
+				setInterval(function() {
+					console.log('newREC');
+					refreshFour();
+				},30000)
+			}
+
 			setInfo(block,i);
 			createBlock(block,i);
 			$('body').one('click', function () {
