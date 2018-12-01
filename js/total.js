@@ -247,8 +247,11 @@ function format (block) {
 	return formated;
 }
 
-var x = -1;
-var y = -1;
+
+const adder = .8;
+const max = 1.6;
+var x = -(max);
+var y = -(max);
 var z = 0;
 function getLastFour() {
 	const url = 'https://hbs-web.herokuapp.com/api/v1/all';
@@ -259,17 +262,18 @@ function getLastFour() {
             console.log(x,z,y)
 			let block = format(element);
             createBlock(block,i);
-            x +=  Math.floor(0.5 * 10) / 10;
-            x = Math.floor(x * 10) / 10;
+            x += adder
+            x = Number(x.toFixed(1));
             
-            if(x > 1) {
-                x = -1;
-                y += 0.5;
-                if(y > 1) {
-                    y = -1;
-                    z += 0.5;
+            if(x > max) {
+                x = -(max);
+                y += adder
+                y = Number(y.toFixed(1));
+                if(y > max) {
+                    y = -(max);
+                    z += adder
+                    z = Number(z.toFixed(1));
                 }
-                y.toFixed(1)
             }
 		})
 	})
