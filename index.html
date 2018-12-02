@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 	<title>Catálogo de posibilidades exitosas</title>
-	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="css/index.css">
@@ -13,20 +13,54 @@
 
 </head>
 <body>
+
+	<div class="banner">
+		<h1 class="title">CPE</h1>
+		<img src="logo.png"/>
+	</div>
+
+
+	<div class="container">
+		<div class="content" id="buttons-content">
+			<div class="flexer">
+				<div class="button noselect" id="new-block">Generar un nuevo bloque</div>
+				<div class="button noselect" id="select">Ver un bloque de la cadena</div>
+				<div class="button noselect" id="total">Ver la obra total</div>
+			</div>
+		</div>
+
+		<div class="content" id="new-block-content">
+			<div class="flexer">
+				<div class="setter flexer-title">Generar un bloque</div>
+				<input id="input-generate" type="text" placeholder="Ingresá un autor" name="">
+				<div id="generar-bloque" class="button noselect">Generar bloque</div>
+				<div class="setter">Los último 3 bloques creados se muestran en los marcadores del 1 al 3, en el marcador número 3 está el último. Para escuchar el sonido del bloque tocá la pantalla.</div>
+				<div class="go-back setter" > &lt; Volver</div>
+			</div>
+		</div>
+
+		<div class="content" id="select-content">
+			<div class="flexer">
+				<div class="setter flexer-title">Seleccioná un bloque ya generado</div>
+				<select onchange="getIndex($(this).val())"></select>
+				<div class="setter">Todos los bloques de la obra permacen en la memoria como recuerdo del momento único en que fueron generados. Seleccioná un autor para ver ese bloque, tocá la pantalla para escuchar el sonido del bloque.</div>
+				<div class="go-back setter" > &lt; Volver</div>
+			</div>
+		</div>
+
+		<div class="content" id="total-content">
+			<div class="flexer">
+				<div class="setter flexer-title">Obra total</div>
+				<a href="total.html" class="see-total"><div class="button noselect">Ver obra total</div></a>
+				<div class="setter">Todos los bloques que generan los participantes hacen un pequeño aporte a la obra total. En el marcador número 4 se puede ver la obra total.</div>
+				<div class="go-back setter" > &lt; Volver</div>
+			</div>
+		</div>
+	</div>
+
+
 	<div class="layer">
 		<div class="lds-dual-ring"></div>
-	</div>
-	<h1 class="title">CPE</h1>
-	<div class="buttons">
-		<div class="generate-block-combo">
-			<input id="input-generate" type="text" placeholder="Ingresá un autor" name="">
-			<div id="generar-bloque" class="button">Generar bloque</div>
-		</div>
-		<div id="list-blocks" class="button">
-			<select onchange="getIndex($(this).val())">
-				  
-			</select>
-		</div>
 	</div>
 </body>
 </html>

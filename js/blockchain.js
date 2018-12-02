@@ -120,7 +120,7 @@ function getFullCatalog() {
 		res.forEach(function(element) {
 			options += '<option value="' + element[0] + '">' + element[4] + '</option>'
 		})
-		$('#list-blocks select').html(options);
+		$('select').html(options);
 	})
 	
 }
@@ -135,8 +135,34 @@ $(document).ready(function() {
 	$('#generar-bloque').on('click', function () {
 		//console.log(chain.chain[0]);
 		if ($('#input-generate').val() != '') {
-			//$('.layer').css('display','block');
+			$('.layer').css('display','block');
 			getLastHash();
 		}
 	});	
+
+	$('#new-block').on('click', function () {
+		$('#buttons-content').fadeOut( 500, function() {
+			$( '#new-block-content' ).fadeIn( 500 );
+		});
+	});
+
+	$('#total').on('click', function () {
+		$('#buttons-content').fadeOut( 500, function() {
+			$( '#total-content' ).fadeIn( 500 );
+		});
+	});
+
+	$('#select').on('click', function () {
+		$('#buttons-content').fadeOut( 500, function() {
+			$( '#select-content' ).fadeIn( 500 );
+		});
+	});
+
+	$('.go-back').on('click', function () {
+		let fader = $(this).parent().parent();
+		console.log(fader);
+		$(fader).fadeOut( 500, function() {
+			$( '#buttons-content' ).fadeIn( 500 );
+		});
+	});
 });

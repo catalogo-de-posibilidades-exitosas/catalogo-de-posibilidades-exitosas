@@ -258,9 +258,16 @@ function getLastFour() {
 	fetch(url)
 	.then(data => { return data.json() })
 	.then( res => {
+		$('#info').append('<div><b>Cantidad de participantes: </b>'  + res.length + '</div>')
 		res.forEach((element,i) => {
-            console.log(x,z,y)
+			//console.log(x,z,y)
+
 			let block = format(element);
+
+			if(i == res.length - 1) {
+				$('#info').append('<div><b>Último bloque creado por: </b>'  + block.author + '</div>')
+			}
+
             createBlock(block,i);
             x += adder
             x = Number(x.toFixed(1));
@@ -276,6 +283,14 @@ function getLastFour() {
                 }
             }
 		})
+		let amarker = document.querySelector("#mrk");
+		setInterval(function() {
+			if(amarker.object3D.visible) {
+				$('#info').show();
+			} else {
+				$('#info').hide();
+			}
+		},1000)
 	})
 }
 

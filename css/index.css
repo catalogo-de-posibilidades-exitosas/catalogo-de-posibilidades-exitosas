@@ -1,48 +1,28 @@
+/***************************
+GENREAL 
+***************************/
+
 * {
-	font-family: 'Roboto Slab', serif;
+	font-family: 'Roboto', serif;
+    font-weight: 100;
 }
 
-.title {
+.banner {
 	position: fixed;
 	margin: 10px;
+	z-index: -1;
+}
+.title {
+	margin: 0;
+}
+
+.banner img {
+	width: 60px;
 }
 #arjsDebugUIContainer, .a-enter-vr {
 	display: none !important;
 }
-.buttons {
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
-	flex-wrap: nowrap;
-	justify-content: center;
-	align-items: center;
-	align-content: center;
-}
 
-.buttons > div {
-	margin-bottom: 10px;
-}
-
-.button {
-	text-align: center;
-    padding: 10px;
-    background-color: black;
-    color: white;
-}
-
-#input-generate {
-	width: 200px;
-    border: 1px solid black;
-    font-size: 20px;
-    padding: 5px 10px;
-    margin-bottom: 10px;
-}
-
-.generate-block-combo {
-    padding: 20px;
-    border: 1px solid black;
-    margin-bottom: 10px;
-}
 
 .layer {
 	display: none;
@@ -75,9 +55,14 @@
 	animation: lds-dual-ring 1.2s linear infinite;
 }
 
-select {
-	color: #000;
-    font-size: 17px;
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+	  -webkit-user-select: none; /* Safari */
+	   -khtml-user-select: none; /* Konqueror HTML */
+		 -moz-user-select: none; /* Firefox */
+		  -ms-user-select: none; /* Internet Explorer/Edge */
+			  user-select: none; /* Non-prefixed version, currently
+									supported by Chrome and Opera */
 }
 
 @keyframes lds-dual-ring {
@@ -89,4 +74,82 @@ select {
 	100% {
 		transform: rotate(360deg);
 	}
+}
+
+/***************************
+CONTENIDO
+***************************/
+
+.container {
+    width: 100%;
+	display: flex;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+}
+
+.content {
+    padding: 10px;
+    position: absolute;
+    width: 275px;
+    background-color: #fff;
+}
+
+.flexer {
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.button {
+    margin: 10px;
+    width: 90%;
+    text-align: center;
+    background-color: #1b1b1b;
+    color: #dedede;
+    padding: 10px;
+}
+
+.button:hover,.go-back:hover  {
+	cursor: pointer;
+}
+
+#input-generate {
+	padding: 10px;
+	margin: 10px 10px 0 10px;
+	width: 90%;
+}
+
+#select-content, #new-block-content, #total-content {
+	display: none;
+}
+
+.setter {
+	width: 100%;
+    margin: 10px 10px 0 10px;
+}
+
+.flexer-title {
+	font-size: 20px;
+}
+
+.go-back {
+	font-weight: 600;
+}
+
+select {
+    -webkit-appearance: menulist-button;
+    height: 30px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.see-total {
+	width: 100%;
+	text-decoration: none;
+}
+
+.see-total .button {
+	margin: 10px 0;
 }
