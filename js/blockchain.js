@@ -121,6 +121,8 @@ function getFullCatalog() {
 			options += '<option value="' + element[0] + '">' + element[4] + '</option>'
 		})
 		$('select').html(options);
+		$('.select-ring').hide();
+		
 	})
 	
 }
@@ -160,7 +162,6 @@ $(document).ready(function() {
 
 	$('.go-back').on('click', function () {
 		let fader = $(this).parent().parent();
-		console.log(fader);
 		$(fader).fadeOut( 500, function() {
 			$( '#buttons-content' ).fadeIn( 500 );
 		});
