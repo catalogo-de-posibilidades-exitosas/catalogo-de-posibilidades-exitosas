@@ -94,20 +94,6 @@ function format (block) {
 	return formated;
 }
 
-// function instaBlock() {
-	
-// 	setTimeout(function() {
-// 		html2canvas(document.querySelector('#twitter')).then(function(canvas) {
-// 			//document.body.appendChild(canvas);
-// 			canvas.getContext("experimental-webgl", {preserveDrawingBuffer: true});
-// 			$('#test').attr('src',canvas.toDataURL());
-// 			console.log(canvas.toDataURL())
-// 		});	
-// 	},1000)
-	
-
-// }
-
 function getFullCatalog() {
 
 	const url = 'https://hbs-web.herokuapp.com/api/v1/all';

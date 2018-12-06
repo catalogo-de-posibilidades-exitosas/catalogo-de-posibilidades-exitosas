@@ -23,15 +23,15 @@
 	<div class="container">
 		<div class="content" id="buttons-content">
 			<div class="flexer">
-				<div class="button noselect" id="new-block">Generar un nuevo bloque</div>
-				<div class="button noselect" id="select">Ver un bloque de la cadena</div>
+				<div class="button noselect" id="new-block">Generar una nueva obra</div>
+				<div class="button noselect" id="select">Ver una obra ya generada</div>
 				<div class="button noselect" id="total">Ver la obra total</div>
 			</div>
 		</div>
 
 		<div class="content" id="new-block-content">
 			<div class="flexer">
-				<div class="setter flexer-title">Generar un bloque</div>
+				<div class="setter flexer-title">Generar una obra</div>
 				<input id="input-generate" type="text" placeholder="Ingresá un autor" name="">
 				<div id="generar-bloque" class="button noselect">Generar bloque</div>
 				<div class="setter">Los último 3 bloques creados se muestran en los marcadores del 1 al 3, en el marcador número 3 está el último. Para escuchar el sonido del bloque tocá la pantalla.</div>
@@ -41,7 +41,7 @@
 
 		<div class="content" id="select-content">
 			<div class="flexer">
-				<div class="setter flexer-title">Seleccioná un bloque ya generado </div>
+				<div class="setter flexer-title">Seleccioná una obra ya generada</div>
 				<div style="display: inline-flex;width: 100%;margin-top: 10px;"><select onchange="getIndex($(this).val())"></select><div class="select-ring"></div></div>
 				<div class="setter">Todos los bloques de la obra permacen en la memoria como recuerdo del momento único en que fueron generados. Seleccioná un autor para ver ese bloque, tocá la pantalla para escuchar el sonido del bloque.</div>
 				<div class="go-back setter" > &lt; Volver</div>
