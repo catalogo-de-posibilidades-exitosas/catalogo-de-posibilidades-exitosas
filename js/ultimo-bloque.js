@@ -529,7 +529,7 @@ $(document).ready(function() {
     		getAuthor((window.location.search).substring(1));
 
 			// Limpia el '?1' de la url
-	       // window.history.pushState('', '', window.location.pathname);    		
+	       window.history.pushState('', '', window.location.pathname);    		
 		}
 
 })

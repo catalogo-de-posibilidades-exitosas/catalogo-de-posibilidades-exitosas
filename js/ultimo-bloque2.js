@@ -451,8 +451,16 @@ function makeCharacter(hash,iterators,numbersReq, type = 'pos') {
 function setInfo(block, markerN) {
     console.log(markerN)
 	$('#info' + markerN).html('')
+	let sustantivo = sustantivos[parseInt(block.hash.substring(0, 3),16) % sustantivos.length];
+	let adjetivo = adjetivos[parseInt(block.hash.substring(4, 7),16) % adjetivos.length];
+	
+	if (!sustantivo.masculino &&  adjetivo.substring(adjetivo.length -1) === 'o') {
+		adjetivo =  adjetivo.substring(0, adjetivo.length -1) + 'a'
+	}
+	
+	$('#info' + markerN).append('<div><b>Título: </b>'  + ' ' + sustantivo.palabra + ' ' + adjetivo + '</div>')
 	INFO_ATTR.forEach((element,i) => {
-		$('#info' + markerN).append('<div><b>' + element + '</b>'  + block[ATTR_KEYS[i]] + '</div>')
+		$('#info' + markerN).append('<div><b>' + element + ' </b>'  + ' '  + block[ATTR_KEYS[i]] + '</div>')
 	})
 
 	let amarker = document.querySelector("#mrk" + markerN);
@@ -483,9 +491,9 @@ function getAuthor(e) {
             }
             
             if(i == e || i == e - 1 || i ==  e - 2) {
-                console.log(i ,e);
+          
                 let whichMrk = i == e ? 2 : i == e - 1 ? 1 : 0;
-                console.log('HOLA',whichMrk)
+               
                 setInfo(block,whichMrk);
                 createBlock(block,whichMrk);
                 $('body').one('click', function () {
@@ -582,36 +590,6 @@ function refreshFour() {
 
 }
 
-// var lastCreated;
-// function getLastFour() {
-// 	const url = 'https://hbs-web.herokuapp.com/api/v1/last-four';
-// 	fetch(url)
-// 	.then(data => { return data.json() })
-// 	.then( res => {
-
-// 		res.forEach((element,i) => {
-
-// 			let block = format(element);
-// 			if( i == 2) {
-// 				lastCreated = block.index;
-// 				setInterval(function() {
-// 					console.log('newREC');
-// 					refreshFour();
-// 				},30000)
-// 			}
-
-// 			setInfo(block,i);
-// 			createBlock(block,i);
-// 			$('body').one('click', function () {
-// 				setAudio(block.hash, i)
-// 			})
-// 		})
-// 		$( ".sound" ).fadeIn( 3000, function() {
-// 			$( ".sound" ).fadeOut( 3000 );
-// 		});
-// 	})
-// }
-
 const adder = .8;
 const max = 1.6;
 var x = -(max);
@@ -624,13 +602,12 @@ function getAll() {
 	.then( res => {
 		$('#info').append('<div><b>Cantidad de participantes: </b>'  + res.length + '</div>')
 		res.forEach((element,i) => {
-			//console.log(x,z,y)
 
 			let block = format(element);
 
             
             if(i >= res.length - 3) {
-                console.log(i >= res.length - 3);
+
                 if(i == res.length - 1) {
                     $('#info').append('<div><b>Último bloque creado por: </b>'  + block.author + '</div>');
                     lastCreated = block.index;
@@ -639,7 +616,7 @@ function getAll() {
                         refreshFour();
                     },30000)
                 }
-                console.log(Math.abs(res.length - (Number(block.index) + 3)))
+           
                 setInfo(block,Math.abs(res.length - (Number(block.index) + 3)));
                 createBlock(block,Math.abs(res.length - (Number(block.index) + 3)));
                 $('body').one('click', function () {
@@ -679,6 +656,9 @@ function getAll() {
 
 
 		})
+		$( ".sound" ).fadeIn( 3000, function() {
+			$( ".sound" ).fadeOut( 3000 );
+		});
 		let amarker = document.querySelector("#mrk");
 		setInterval(function() {
 			if(amarker.object3D.visible) {
@@ -701,7 +681,7 @@ $(document).ready(function() {
     		getAuthor((window.location.search).substring(1));
 
 			// Limpia el '?1' de la url
-	       // window.history.pushState('', '', window.location.pathname);    		
+	        window.history.pushState('', '', window.location.pathname);    		
 		}
 
 })
