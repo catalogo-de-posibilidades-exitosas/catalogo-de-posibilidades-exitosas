@@ -1,5 +1,5 @@
 const TEXTURES = 19;
-const INFO_ATTR = ["Bloque N°: ","Autor: ","Fecha: ","Código: "];
+const INFO_ATTR = ["Obra N°: ","Autor: ","Fecha: ","Código: "];
 const ATTR_KEYS = ["index","author","timestamp","hash"];
 const EASING = ['linear','ease','ease-in','ease-out','ease-in-out'];
 const EASING_SUB = ['cubic','quad','quart','quint','sine','expo','circ','elastic','back','bounce'];
@@ -173,7 +173,6 @@ function createBlock(block, markerN) {
 	let easing = EASING[makeCharacter(block.hash, iterators,2, 'clean') % EASING.length];
 	let fill = FILL[makeCharacter(block.hash, iterators,2, 'clean') % FILL.length]
 	easing += easing != 'linear' ? '-' + EASING_SUB[makeCharacter(block.hash, iterators,2, 'clean') % EASING_SUB.length] : '';
-	//console.log('ANIMATION>>>>>',animation,'Easing>>>>>>',easing,'DUR>>>>>',animationDur, 'FILL>>>>>>>>', fill);
 
 	let y = -0.5;
 	while(y < 1) {
@@ -225,10 +224,10 @@ function createTotalBlock(block, markerN) {
 		sign: -1,
 	}
 	let blockType = makeCharacter(block.hash, iterators,3, 'clean') % 14;
-	let animation = BLOCK_TYPES[blockType].animations[makeCharacter(block.hash, iterators,1, 'clean') % BLOCK_TYPES[blockType].animations.length];
-	let animationDur = makeCharacter(block.hash, iterators,4, 'clean') % 10000;
+	makeCharacter(block.hash, iterators,1, 'clean');
+	makeCharacter(block.hash, iterators,4, 'clean');
 	let easing = EASING[makeCharacter(block.hash, iterators,2, 'clean') % EASING.length];
-	let fill = FILL[makeCharacter(block.hash, iterators,2, 'clean') % FILL.length]
+	makeCharacter(block.hash, iterators,2, 'clean');
 	easing += easing != 'linear' ? '-' + EASING_SUB[makeCharacter(block.hash, iterators,2, 'clean') % EASING_SUB.length] : '';
 
     $('#mrk').append(
@@ -263,10 +262,10 @@ const ERRATIC_POS = [20,70,120,170,220,270,320,370,420,470,520,570,620,670,720,7
 var soundChange = false;
 
 function setAudio(hash, marker) {
-    console.log(marker)
+  
 	let c,d,e,g,h,i,k;
 	let sounder = SOUND_VAR[parseInt(hash.slice(0,3), 16) % SOUND_VAR.length];
-	console.log(sounder)
+
 	let oscFrec = parseInt(hash.slice(0,3), 16) % 1000;
 	let oscType = OSCILLATOR_TYPES[parseInt(hash.slice(0,3), 16) % OSCILLATOR_TYPES.length]
 	let filterFrec = parseInt(hash.slice(3,6), 16) % 700;
@@ -327,7 +326,6 @@ function setAudio(hash, marker) {
 	d.start()	
 
 	let amarker = document.querySelector("#mrk" + marker);
-	let soundInterval;
 	switch(sounder) {
 		case 'lfo':
 			let updownn = true;
@@ -449,7 +447,7 @@ function makeCharacter(hash,iterators,numbersReq, type = 'pos') {
 }
 
 function setInfo(block, markerN) {
-    console.log(markerN)
+
 	$('#info' + markerN).html('')
 	let sustantivo = sustantivos[parseInt(block.hash.substring(0, 3),16) % sustantivos.length];
 	let adjetivo = adjetivos[parseInt(block.hash.substring(4, 7),16) % adjetivos.length];
@@ -458,10 +456,10 @@ function setInfo(block, markerN) {
 		adjetivo =  adjetivo.substring(0, adjetivo.length -1) + 'a'
 	}
 	
-	$('#info' + markerN).append('<div><b>Título: </b>'  + ' ' + sustantivo.palabra + ' ' + adjetivo + '</div>')
-	INFO_ATTR.forEach((element,i) => {
-		$('#info' + markerN).append('<div><b>' + element + ' </b>'  + ' '  + block[ATTR_KEYS[i]] + '</div>')
-	})
+	$('#info' + markerN).append('<div><b>Título: </b>'  + ' ' + sustantivo.palabra + ' ' + adjetivo + '</div>');
+	for(let i = 0; i< INFO_ATTR.length; i++) {
+		$('#info' + markerN).append('<div><b>' + INFO_ATTR[i] + ' </b>'  + ' '  + block[ATTR_KEYS[i]] + '</div>')
+	}
 
 	let amarker = document.querySelector("#mrk" + markerN);
 	setInterval(function() {
@@ -481,11 +479,10 @@ function getAuthor(e) {
 	.then(data => { return data.json() })
 	.then( res => {
         
-        $('#info').append('<div><b>Cantidad de participantes: </b>'  + res.length + '</div>')
-		res.forEach((element,i) => {
-			//console.log(x,z,y)
+		$('#info').append('<div><b>Cantidad de participantes: </b>'  + res.length + '</div>');
+		for(let i = 0; i < res.length; i++) {
 
-			let block = format(element);
+			let block = format(res[i]);
             if(i == res.length - 1) {
                 $('#info').append('<div><b>Último bloque creado por: </b>'  + block.author + '</div>');
             }
@@ -529,10 +526,9 @@ function getAuthor(e) {
                         z = Number(z.toFixed(1));
                     }
                 }
-            }
-
-
-		})
+            }			
+		}
+		
 		let amarker = document.querySelector("#mrk");
 		setInterval(function() {
 			if(amarker.object3D.visible) {
@@ -553,9 +549,9 @@ function format (block) {
 	let caracteristics = ['index','timestamp','previousHash','hash','author'];
 	let formated = {};
 
-	block.forEach( (element,i) => {
-		formated[caracteristics[i]] = element;
-	})
+	for(let i = 0;i < block.length;i++) {
+		formated[caracteristics[i]] = block[i];
+	}
 
 	return formated;
 }
@@ -571,9 +567,8 @@ function refreshFour() {
 		let tester = format(res[res.length - 1]);
 		if(tester.index > lastCreated) {
 			soundChange = true;
-			res.forEach((element,i) => {
-
-				let block = format(element);
+			for(let i = 0; i < res.length ; i++) {
+				let block = format(res[i]);
 				setInfo(block,i);
 				createBlock(block,i);
 				$('body').one('click', function () {
@@ -582,8 +577,8 @@ function refreshFour() {
 					$( ".sound" ).fadeIn( 3000, function() {
 						$( ".sound" ).fadeOut( 3000 );
 					});
-				})
-			})
+				})				
+			}
 			lastCreated = tester.index;
 		}
 	})
@@ -600,11 +595,9 @@ function getAll() {
 	fetch(url)
 	.then(data => { return data.json() })
 	.then( res => {
-		$('#info').append('<div><b>Cantidad de participantes: </b>'  + res.length + '</div>')
-		res.forEach((element,i) => {
-
-			let block = format(element);
-
+		$('#info').append('<div><b>Cantidad de participantes: </b>'  + res.length + '</div>');
+		for(let i = 0; i < res.length; i++) {
+			let block = format(res[i]);
             
             if(i >= res.length - 3) {
 
@@ -618,7 +611,7 @@ function getAll() {
                 }
            
                 setInfo(block,Math.abs(res.length - (Number(block.index) + 3)));
-                createBlock(block,Math.abs(res.length - (Number(block.index) + 3)));
+                //createBlock(block,Math.abs(res.length - (Number(block.index) + 3)));
                 $('body').one('click', function () {
                     setAudio(block.hash, Math.abs(res.length - (Number(block.index) + 3)))
                 })
@@ -653,9 +646,8 @@ function getAll() {
                     }
                 }
             }
+		}
 
-
-		})
 		$( ".sound" ).fadeIn( 3000, function() {
 			$( ".sound" ).fadeOut( 3000 );
 		});
@@ -677,9 +669,7 @@ $(document).ready(function() {
 	        getAll();
         
     	} else {
-            console.log((window.location.search).substring(1))
     		getAuthor((window.location.search).substring(1));
-
 			// Limpia el '?1' de la url
 	        window.history.pushState('', '', window.location.pathname);    		
 		}
