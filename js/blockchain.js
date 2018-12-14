@@ -87,7 +87,7 @@ function format (block) {
 	let formated = {"info":[]}
 	for (var key in block) {
 		formated.info.push(block[key]);
-		console.log(block[key]);
+
 	}
 
 	
