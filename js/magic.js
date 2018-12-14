@@ -494,7 +494,7 @@ function getAuthor(e) {
                 setInfo(block,whichMrk);
                 createBlock(block,whichMrk);
                 $('body').one('click', function () {
-                    
+                    $('.sound').fadeOut(1000);
                     setAudio(block.hash, whichMrk)
                 })
                 createTotalBlock(block,i);
@@ -538,9 +538,6 @@ function getAuthor(e) {
 			}
         },1000)
         
-		$( ".sound" ).fadeIn( 3000, function() {
-			$( ".sound" ).fadeOut( 3000 );
-		});
 	})
 
 }
@@ -571,12 +568,12 @@ function refreshFour() {
 				let block = format(res[i]);
 				setInfo(block,i);
 				createBlock(block,i);
+				$( ".sound" ).show();
 				$('body').one('click', function () {
 					soundChange = false;
+					$('.sound').fadeOut(1000);
 					setAudio(block.hash, i);
-					$( ".sound" ).fadeIn( 3000, function() {
-						$( ".sound" ).fadeOut( 3000 );
-					});
+					
 				})				
 			}
 			lastCreated = tester.index;
@@ -613,6 +610,7 @@ function getAll() {
                 setInfo(block,Math.abs(res.length - (Number(block.index) + 3)));
                 createBlock(block,Math.abs(res.length - (Number(block.index) + 3)));
                 $('body').one('click', function () {
+					$('.sound').fadeOut(1000);
                     setAudio(block.hash, Math.abs(res.length - (Number(block.index) + 3)))
                 })
 
@@ -647,10 +645,6 @@ function getAll() {
                 }
             }
 		}
-
-		$( ".sound" ).fadeIn( 3000, function() {
-			$( ".sound" ).fadeOut( 3000 );
-		});
 		let amarker = document.querySelector("#mrk");
 		setInterval(function() {
 			if(amarker.object3D.visible) {
