@@ -42,7 +42,7 @@ function getLastHash() {
 	fetch(url)
 	.then(data => { return data.json() })
 	.then( res => {
-		console.log(res)
+	
 		generateNewBlock(res);
 	})
 }
@@ -71,9 +71,9 @@ function generateNewBlock( previousBlock ) {
 
 
 	$.ajax(settings).done(function (response) {
-		console.log(response);
+
 		//window.location.assign(data);
-		window.location.href = 'ultimo-bloque.html';
+		window.location.href = 'magic.html';
 		});
 
 
@@ -101,7 +101,7 @@ function getFullCatalog() {
 	fetch(url)
 	.then(data => { return data.json() })
 	.then( res => {
-		console.log(res);
+
 		var options = '<option value="" disabled selected>Seleccioná un autor</option>';
 		res.forEach(function(element) {
 			options += '<option value="' + element[0] + '">' + element[4] + '</option>'
@@ -114,7 +114,7 @@ function getFullCatalog() {
 }
 
 function getIndex(e) {
-	window.location.href = 'ultimo-bloque.html?' + e;
+	window.location.href = 'magic.html?' + e;
 }
 
 
@@ -131,12 +131,6 @@ $(document).ready(function() {
 	$('#new-block').on('click', function () {
 		$('#buttons-content').fadeOut( 500, function() {
 			$( '#new-block-content' ).fadeIn( 500 );
-		});
-	});
-
-	$('#total').on('click', function () {
-		$('#buttons-content').fadeOut( 500, function() {
-			$( '#total-content' ).fadeIn( 500 );
 		});
 	});
 

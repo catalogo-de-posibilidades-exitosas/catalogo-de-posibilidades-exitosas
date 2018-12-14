@@ -611,7 +611,7 @@ function getAll() {
                 }
            
                 setInfo(block,Math.abs(res.length - (Number(block.index) + 3)));
-                //createBlock(block,Math.abs(res.length - (Number(block.index) + 3)));
+                createBlock(block,Math.abs(res.length - (Number(block.index) + 3)));
                 $('body').one('click', function () {
                     setAudio(block.hash, Math.abs(res.length - (Number(block.index) + 3)))
                 })
