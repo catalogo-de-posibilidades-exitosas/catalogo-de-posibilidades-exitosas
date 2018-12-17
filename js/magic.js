@@ -599,7 +599,7 @@ function getAll() {
             if(i >= res.length - 3) {
 
                 if(i == res.length - 1) {
-                    $('#info').append('<div><b>Último bloque creado por: </b>'  + block.author + '</div>');
+                    $('#info').append('<div><b>Última obra creada por: </b>'  + block.author + '</div>');
                     lastCreated = block.index;
                     setInterval(function() {
                         console.log('newREC');
